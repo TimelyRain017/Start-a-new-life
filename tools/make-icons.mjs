@@ -1,7 +1,7 @@
 // tools/make-icons.mjs — 从一份 SVG 定义生成全站图标（favicon / iOS / PWA）
 // 说明：本脚本依赖 playwright 的 chromium 做 SVG→PNG 栅格化，不在 package.json 里，
 //      跑之前先 `npx playwright install chromium` 或用本机已有 chromium。
-//      改了品牌色只要改下面 PALETTE，再 `node tools/make-icons.mjs` 重出全套。
+//      改品牌色改 PALETTE；换图形改 MARK（'T' 丁字路口 / 'Y' 岔路），再跑一次即可。
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import pw from 'file:///C:/Users/86176/AppData/Roaming/npm/node_modules/@playwright/cli/node_modules/playwright-core/index.js';
@@ -11,29 +11,44 @@ const OUT = fileURLToPath(new URL('../public/', import.meta.url));
 mkdirSync(OUT, { recursive: true });
 
 const PALETTE = {
-  ink: '#1e2529',   // 底：与正文字色同源的墨蓝
-  g1: '#fdf3e0',    // 雨滴高光
+  ink: '#1e2529',   // 底：与正文色同源的墨蓝
+  g1: '#fdf3e0',    // 笔画高光
   g2: '#dcb877',    // 晨光金
-  g3: '#bb9040',    // 雨滴暗部
+  g3: '#bf9445',    // 笔画暗部
+};
+
+// 图形：主线 + 支路。两条几何都留在下面，改 MARK 一行就能换。
+const MARK = 'T';
+const MARKS = {
+  // T 型路口：横是那条大路（粗），竖是走进去的支路（细）。T 也是 TimelyRain 的首字母，
+  // 英文里 T-junction 就是丁字路口 —— IP 与主题共用一笔。
+  T: `<g fill="none" stroke="url(#mark)" stroke-linecap="round">
+        <path d="M13 26.5Q32 24.2 51 26.5" stroke-width="7.8"/>
+        <path d="M32 28.4V51" stroke-width="5.9"/>
+      </g>`,
+  // Y 岔路：一眼就是分叉与选择。两枝角度略微不对称——总有一条是你没走的。
+  Y: `<g fill="none" stroke="url(#mark)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 52V35.5"/>
+        <path d="M32 35.5 22.8 17.5"/>
+        <path d="M32 35.5 41.2 19"/>
+      </g>`,
 };
 
 // 图标主体（viewBox 0 0 64 64）。rx 传 0 = 满出血（给 iOS / maskable 用）
+// 渐变必须 userSpaceOnUse：objectBoundingBox 在零宽度的竖直笔上会退化，整笔直接不渲染（踩过）
 function body({ rx = 14.5, pad = 0, size = 64 } = {}) {
   const s = size / 64;
   return `
   <rect width="${size}" height="${size}" rx="${rx}" fill="${PALETTE.ink}"/>
   <g transform="translate(${pad},${pad}) scale(${s})">
     <defs>
-      <linearGradient id="drop" x1="0.18" y1="0" x2="0.52" y2="1">
+      <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="10" y1="14" x2="54" y2="54">
         <stop offset="0" stop-color="${PALETTE.g1}"/>
-        <stop offset=".48" stop-color="${PALETTE.g2}"/>
+        <stop offset=".5" stop-color="${PALETTE.g2}"/>
         <stop offset="1" stop-color="${PALETTE.g3}"/>
       </linearGradient>
     </defs>
-    <path d="M32 6.6c0 0 14.2 19 14.2 29a14.2 14.2 0 0 1-28.4 0c0-10 14.2-29 14.2-29Z" fill="url(#drop)"/>
-    <path d="M32 44.6V34.2M32 34.2 24.7 27M32 34.2 39.3 27"
-          fill="none" stroke="${PALETTE.ink}" stroke-width="3.1"
-          stroke-linecap="round" stroke-linejoin="round"/>
+    ${MARKS[MARK]}
   </g>`;
 }
 
@@ -44,12 +59,9 @@ const wrap = (inner, vb = 64) =>
 writeFileSync(OUT + 'icon.svg', wrap(body()) + '\n');
 
 // ── 2. Safari 固定标签页用的单色版（系统自己上色，只能有一个色） ──
+const mono = MARKS[MARK].replace(/stroke="url\(#mark\)"/g, 'stroke="#000"');
 writeFileSync(OUT + 'safari-pinned-tab.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <mask id="cut">
-    <rect width="64" height="64" fill="#fff"/>
-    <path d="M32 44.6V34.2M32 34.2 24.7 27M32 34.2 39.3 27" fill="none" stroke="#000" stroke-width="3.1" stroke-linecap="round"/>
-  </mask>
-  <path d="M32 6.6c0 0 14.2 19 14.2 29a14.2 14.2 0 0 1-28.4 0c0-10 14.2-29 14.2-29Z" fill="#000" mask="url(#cut)"/>
+  ${mono}
 </svg>\n`);
 
 // ── 3. 栅格化 ────────────────────────────────────────────────
@@ -72,7 +84,7 @@ async function png(svg, size, file, opaque = false) {
   console.log('  ✓', file, `${size}×${size}`, opaque ? '(不透明)' : '(透明底)');
 }
 
-console.log('生成 PNG：');
+console.log(`生成 PNG（图形：${MARK}）：`);
 await png(wrap(body()), 32, 'icon-32.png');
 await png(wrap(body()), 180, 'icon-180.png');
 await png(wrap(body()), 192, 'icon-192.png');
@@ -80,7 +92,7 @@ await png(wrap(body()), 512, 'icon-512.png');
 // iOS 会自己裁圆角：给满出血 + 不透明，否则套两层圆角
 await png(wrap(body({ rx: 0 })), 180, 'apple-touch-icon.png', true);
 // Android 自适应图标：内容收进中间 80% 安全区
-await png(wrap(body({ rx: 0, pad: 8, size: 80 }), 80), 512, 'icon-maskable-512.png', true);
+await png(wrap(body({ rx: 0, pad: 10, size: 80 }), 80), 512, 'icon-maskable-512.png', true);
 
 // ── 4. favicon.ico（内含 16/32/48 三个 PNG，Vista 起通用） ──────
 const icoSizes = [16, 32, 48];

@@ -24,11 +24,10 @@
   .wrap { max-width: 1000px; margin: 0 auto; }
   .kicker { font-size: 11px; letter-spacing: 3px; color: var(--ink3); text-transform: uppercase; margin: 0 0 10px; }
   h1 { font-size: 27px; font-weight: 500; letter-spacing: 0.5px; margin: 0 0 8px; }
-  .lede { color: var(--ink2); font-size: 14px; margin: 0 0 40px; max-width: 620px; }
+  .lede { color: var(--ink2); font-size: 14px; margin: 0 0 40px; max-width: 640px; }
 
-  .hero { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: start; margin-bottom: 52px; }
+  .hero { display: grid; grid-template-columns: 300px 1fr; gap: 44px; align-items: start; margin-bottom: 48px; }
   @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 26px; } body { padding: 36px 20px 64px; } }
-
   .stage {
     background: linear-gradient(160deg, #f4efe4, #eae4d6);
     border-radius: 22px; padding: 34px; display: grid; place-items: center;
@@ -49,6 +48,18 @@
   h2 { font-size: 13px; letter-spacing: 2.5px; color: var(--ink3); font-weight: 500; margin: 0 0 18px; }
   section { margin-bottom: 50px; }
 
+  .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 720px) { .ab { grid-template-columns: 1fr; } }
+  .ab-card { background: var(--panel); border: 0.5px solid var(--line); border-radius: 18px; padding: 20px; }
+  .ab-card.pick { border-color: rgba(195,154,75,.45); box-shadow: 0 0 0 3px rgba(195,154,75,.07); }
+  .ab-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .ab-top svg, .ab-top img { width: 84px; height: 84px; border-radius: 20px; flex: 0 0 auto; }
+  .ab-title { font-size: 14.5px; font-weight: 500; }
+  .ab-sub { font-size: 11.5px; color: var(--ink3); letter-spacing: 0.5px; margin-top: 2px; }
+  .badge { display: inline-block; font-size: 10px; letter-spacing: 1px; color: var(--gold);
+    background: var(--gold-soft); border: 0.5px solid rgba(195,154,75,.32); border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
+  .ab-card p { margin: 0; font-size: 13px; color: var(--ink2); line-height: 1.8; }
+
   .sizes { display: flex; align-items: flex-end; gap: 26px; flex-wrap: wrap; background: var(--panel);
     border: 0.5px solid var(--line); border-radius: 18px; padding: 26px 30px; }
   .sz { text-align: center; }
@@ -59,7 +70,6 @@
   .scene { background: var(--panel); border: 0.5px solid var(--line); border-radius: 18px; padding: 18px; }
   .scene > .cap { font-size: 11.5px; color: var(--ink3); letter-spacing: 1px; margin-bottom: 14px; }
 
-  /* Chrome 标签页 */
   .chrome { background: #dee1e6; border-radius: 10px 10px 0 0; padding: 8px 8px 0; display: flex; gap: 4px; }
   .tab { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 8px 8px 0 0;
     padding: 7px 12px; font-size: 11.5px; color: #3c4043; max-width: 190px; }
@@ -69,21 +79,19 @@
   .tabidle img { width: 13px; height: 13px; border-radius: 3px; }
   .chrome-bar { background: #fff; border-radius: 0 0 10px 10px; height: 26px; }
 
-  /* 书签栏 */
   .bm { background: #fff; border-radius: 10px; padding: 9px 12px; display: flex; align-items: center; gap: 16px;
     font-size: 11.5px; color: #3c4043; border: 0.5px solid #e2e5e9; }
   .bm span { display: flex; align-items: center; gap: 6px; }
   .bm img { width: 14px; height: 14px; border-radius: 3px; }
+  .bm .ph { width: 14px; height: 14px; border-radius: 3px; background: #c9cdd2; display: inline-block; }
 
-  /* iOS 主屏 */
   .spring { background: linear-gradient(165deg, #cfd9e2, #e7e2d6); border-radius: 14px; padding: 16px 14px; }
   .appgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 10px; }
   .app { text-align: center; }
   .app img { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.14); }
   .app .ph { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,.55);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); margin: 0 auto; }
-  .bm .ph { width: 14px; height: 14px; border-radius: 3px; background: #c9cdd2; }
-  .app b { display: block; font-size: 8.5px; font-weight: 400; color: #2c3136; margin-top: 4px; letter-spacing: 0; }
+  .app b { display: block; font-size: 8.5px; font-weight: 400; color: #2c3136; margin-top: 4px; }
 
   .android { display: grid; place-items: center; background: linear-gradient(165deg,#dfe6ea,#efe9dc); border-radius: 14px; padding: 18px; }
   .android .circ { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,.15); }
@@ -106,43 +114,78 @@
   .sw span { font-family: ui-monospace, monospace; font-size: 10.5px; color: var(--ink3); }
 
   .foot { margin-top: 44px; font-size: 11.5px; color: var(--ink3); }
+  .foot code { font-family: ui-monospace, monospace; background: #f2f6f8; padding: 1.5px 5px; border-radius: 4px; color: var(--brand); }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <linearGradient id="drop" x1="0.18" y1="0" x2="0.52" y2="1">
-    <stop offset="0" stop-color="#fdf3e0"/><stop offset=".48" stop-color="#dcb877"/><stop offset="1" stop-color="#bb9040"/>
+  <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="10" y1="14" x2="54" y2="54">
+    <stop offset="0" stop-color="#fdf3e0"/><stop offset=".5" stop-color="#dcb877"/><stop offset="1" stop-color="#bf9445"/>
   </linearGradient>
-  <symbol id="mark" viewBox="0 0 64 64">
+  <symbol id="yMark" viewBox="0 0 64 64">
     <rect width="64" height="64" rx="14.5" fill="#1e2529"/>
-    <path d="M32 6.6c0 0 14.2 19 14.2 29a14.2 14.2 0 0 1-28.4 0c0-10 14.2-29 14.2-29Z" fill="url(#drop)"/>
-    <path d="M32 44.6V34.2M32 34.2 24.7 27M32 34.2 39.3 27" fill="none" stroke="#1e2529"
-      stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="none" stroke="url(#mark)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 52V35.5"/><path d="M32 35.5 22.8 17.5"/><path d="M32 35.5 41.2 19"/>
+    </g>
   </symbol>
 </defs></svg>
 
 <div class="wrap">
   <p class="kicker">Favicon / App Icon</p>
-  <h1>一滴雨里，一条岔路</h1>
-  <p class="lede">「及时雨」是雨，「人生重开」是岔路。把两件事压进一个 16×16 还认得出的形状里：一滴晨光色的雨，落下来时分成两条枝。</p>
+  <h1>一条大路，一条支路</h1>
+  <p class="lede">没画雨，也没画人物。画的是一个路口——游戏第一屏就是「18 岁那个岔路口」。而 T 这个形状，恰好也是 TimelyRain 的首字母；英文里 T-junction 就是丁字路口。</p>
 
   <div class="hero">
     <div class="stage"><img src="./public/icon-512.png" alt="图标 512px" /></div>
     <div class="notes">
       <div class="note"><div class="num">01</div><div>
-        <b>雨滴 = 及时雨</b>
-        <p>IP 是「及时雨」，符号就得是雨。滴形用了 14.2 的圆角半径撑出饱满的底，尖端收得比标准水滴更瘦，避免读成血滴或地图定位针。</p>
+        <b>横：那条大路</b>
+        <p>一条粗笔（7.8）横贯画面，中段微微起伏——不是尺子画的直线，是一条真的路。它代表走到 18 岁时那条看得见的直路。</p>
       </div></div>
       <div class="note"><div class="num">02</div><div>
-        <b>Y 形 = 人生的岔路</b>
-        <p>主干从滴底向上，在三分之一处分开两支——正是游戏里「18 岁那个岔路口」的样子。三笔都是圆头，读起来是树，不是剪刀。</p>
+        <b>竖：走进去的支路</b>
+        <p>明显更细（5.9），从横线下方垂直延伸出去。两条笔画的粗细差就是主次——路口的意义正在于「你走了哪条，哪条留在身后」。</p>
       </div></div>
       <div class="note"><div class="num">03</div><div>
-        <b>墨 + 晨光金 = 站点自己的色</b>
-        <p>底色取自正文色 <code>#1e2529</code>，雨滴是 <code>#fdf3e0 → #bb9040</code> 的三段渐变，和 h1 晨光、拼图渐变同一套。深底让它在浅色标签栏里先被看见，金滴在深色标签栏里也亮得住。</p>
+        <b>墨底 + 晨光金，和站点同一套色</b>
+        <p>底取正文色 <code>#1e2529</code>，笔画是 <code>#fdf3e0 → #bf9445</code> 的三段渐变，与 h1 晨光、拼图渐变同源。深底在浅色标签栏先被看见，金线在深色标签栏也亮得住。</p>
       </div></div>
     </div>
   </div>
+
+  <section>
+    <h2>为什么不再用雨滴</h2>
+    <p style="margin:-6px 0 18px;color:#5d6a72;font-size:13.5px;max-width:680px">
+      雨滴只能说明「及时雨」这个 ID，说不出「人生重开」这件事。而这个游戏的一切都从路口开始：18 岁、高考结束、四条岔路。用路口做图标，等于把游戏的第一屏压缩成了一个符号。T 又刚好是 IP 的首字母——一个形状，两个意思。
+    </p>
+  </section>
+
+  <section>
+    <h2>两个方案（B 是备选）</h2>
+    <div class="ab">
+      <div class="ab-card pick">
+        <div class="ab-top">
+          <img src="./public/icon-512.png" alt="" />
+          <div>
+            <div class="ab-title">A · T 型路口<span class="badge">已采用</span></div>
+            <div class="ab-sub">IP 首字母 + 丁字路口</div>
+          </div>
+        </div>
+        <p>横粗竖细，主次分明。既读得出「T」（TimelyRain），也读得出「一个路口」。两件事共用一笔，是这套方案最值钱的地方。</p>
+      </div>
+      <div class="ab-card">
+        <div class="ab-top">
+          <svg><use href="#yMark"/></svg>
+          <div>
+            <div class="ab-title">B · Y 岔路</div>
+            <div class="ab-sub">最直白的「选择」</div>
+          </div>
+        </div>
+        <p>一眼就是分岔，不需要解释。两枝角度略微不对称——总有一条是你没走的。缺点是它读起来还是更像一个字母 Y，和 IP 没关系。</p>
+      </div>
+    </div>
+    <p style="margin:14px 0 0;font-size:12.5px;color:#9aa4aa">换 B：把 <code style="font-family:ui-monospace,monospace">tools/make-icons.mjs</code> 里的 <code style="font-family:ui-monospace,monospace">MARK</code> 改成 <code style="font-family:ui-monospace,monospace">'Y'</code>，跑一次就重出全套。</p>
+  </section>
 
   <section>
     <h2>各尺寸实际效果</h2>
@@ -151,9 +194,9 @@
       <div class="sz"><img src="./public/icon-192.png" width="64" height="64" /><span>192</span></div>
       <div class="sz"><img src="./public/icon-180.png" width="48" height="48" /><span>180</span></div>
       <div class="sz"><img src="./public/icon-32.png" width="32" height="32" /><span>32</span></div>
-      <div class="sz"><img src="./public/icon-32.png" width="16" height="16" style="image-rendering:auto" /><span>16</span></div>
+      <div class="sz"><img src="./public/icon-32.png" width="16" height="16" /><span>16</span></div>
       <div class="sz" style="margin-left:auto;max-width:330px;text-align:left;color:#5d6a72;font-size:12.5px">
-        16px 是浏览器标签页的真实尺寸。这里刻意只保留「滴形 + 一级分叉」——试过两级树枝，16px 下会糊成一团墨点。
+        16px 是浏览器标签页的真实尺寸。两条笔画的粗细差在这里只剩半个像素，但「一横一竖」的骨架仍然成立——这正是当初否掉细线方案（雨滴溅开、两级树枝）的原因。
       </div>
     </div>
   </section>
@@ -174,8 +217,8 @@
         <div class="cap">书签栏</div>
         <div class="bm">
           <span><img src="./public/icon-32.png" alt="" />人生重开</span>
-          <span><i class="ph" style="width:14px;height:14px;border-radius:3px"></i>GitHub</span>
-          <span><i class="ph" style="width:14px;height:14px;border-radius:3px"></i>笔记</span>
+          <span><i class="ph"></i>GitHub</span>
+          <span><i class="ph"></i>笔记</span>
         </div>
         <div style="height:26px"></div>
       </div>
@@ -205,9 +248,9 @@
     <h2>配色</h2>
     <div class="swatches">
       <div class="sw"><i style="background:#1e2529"></i><div><b>墨底</b><span>#1e2529</span></div></div>
-      <div class="sw"><i style="background:#fdf3e0"></i><div><b>雨滴高光</b><span>#fdf3e0</span></div></div>
+      <div class="sw"><i style="background:#fdf3e0"></i><div><b>笔画高光</b><span>#fdf3e0</span></div></div>
       <div class="sw"><i style="background:#dcb877"></i><div><b>晨光金</b><span>#dcb877</span></div></div>
-      <div class="sw"><i style="background:#bb9040"></i><div><b>雨滴暗部</b><span>#bb9040</span></div></div>
+      <div class="sw"><i style="background:#bf9445"></i><div><b>笔画暗部</b><span>#bf9445</span></div></div>
     </div>
   </section>
 
@@ -227,7 +270,7 @@
     </table>
   </section>
 
-  <p class="foot">改色重出全套：<code style="font-family:ui-monospace,monospace">node tools/make-icons.mjs</code> —— 只需改脚本顶部 PALETTE 四个值。</p>
+  <p class="foot">改色或换图形重出全套：<code>node tools/make-icons.mjs</code> —— 顶部 PALETTE 改四个色值，MARK 改 <code>'T'</code> / <code>'Y'</code>。</p>
 </div>
 </body>
 </html>

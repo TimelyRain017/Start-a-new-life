@@ -32,3 +32,6 @@ desktop.ini
 
 # Lighthouse 跑分产物（体积大，可随时重跑）
 tools/lighthouse/
+
+# 图标设计工作区（临时对照稿、截图）
+.ico2/

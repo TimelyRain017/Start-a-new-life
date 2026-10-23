@@ -2,14 +2,14 @@
   <rect width="64" height="64" rx="14.5" fill="#1e2529"/>
   <g transform="translate(0,0) scale(1)">
     <defs>
-      <linearGradient id="drop" x1="0.18" y1="0" x2="0.52" y2="1">
+      <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="10" y1="14" x2="54" y2="54">
         <stop offset="0" stop-color="#fdf3e0"/>
-        <stop offset=".48" stop-color="#dcb877"/>
-        <stop offset="1" stop-color="#bb9040"/>
+        <stop offset=".5" stop-color="#dcb877"/>
+        <stop offset="1" stop-color="#bf9445"/>
       </linearGradient>
     </defs>
-    <path d="M32 6.6c0 0 14.2 19 14.2 29a14.2 14.2 0 0 1-28.4 0c0-10 14.2-29 14.2-29Z" fill="url(#drop)"/>
-    <path d="M32 44.6V34.2M32 34.2 24.7 27M32 34.2 39.3 27"
-          fill="none" stroke="#1e2529" stroke-width="3.1"
-          stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="none" stroke="url(#mark)" stroke-linecap="round">
+        <path d="M13 26.5Q32 24.2 51 26.5" stroke-width="7.8"/>
+        <path d="M32 28.4V51" stroke-width="5.9"/>
+      </g>
   </g></svg>
