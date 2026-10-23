@@ -1,6 +1,25 @@
+# ── 依赖与构建产物：由 CI 或本地 npm run build 生成，不进仓库 ──
 node_modules/
 dist/
 *.log
+
+# ── 编辑器 / 系统垃圾 ──
+.vscode/
+.idea/
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# ── 本地环境与密钥：绝不外传 ──
+.env
+.env.*
+*.local
+*.pem
+
+# ── 开发期临时物：截图、浏览器自动化缓存、一次性验证脚本 ──
 .shots/
+.tmpcheck/
 .playwright-cli/
+
+# ── WorkBuddy 工作区数据（会话日志、记忆、缓存）──
+.workbuddy/
