@@ -6,68 +6,64 @@
 <title>图标设计说明 · 及时雨 · 人生重开</title>
 <style>
   :root {
-    --bg: #fbfaf6; --panel: #fff; --line: #e7e3d9;
-    --ink: #1e2529; --ink2: #5d6a72; --ink3: #9aa4aa;
-    --gold: #c39a4b; --gold-soft: #f7efe0; --brand: #5b7d90;
+    --bg: #f7f7f5; --panel: #fff; --line: #e6e6e2;
+    --ink: #111; --ink2: #5a5a5a; --ink3: #9a9a9a;
+    --accent: #111; --accent-soft: #f0f0ee;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0; padding: 56px 28px 80px;
-    background:
-      radial-gradient(120% 48% at 50% -8%, #fff6e4 0%, rgba(255,246,228,0) 62%),
-      linear-gradient(180deg, #eef4f7 0%, #f7f7f2 46%, var(--bg) 100%);
-    background-attachment: fixed;
+    background: var(--bg);
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
     font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 1000px; margin: 0 auto; }
   .kicker { font-size: 11px; letter-spacing: 3px; color: var(--ink3); text-transform: uppercase; margin: 0 0 10px; }
-  h1 { font-size: 27px; font-weight: 500; letter-spacing: 0.5px; margin: 0 0 8px; }
-  .lede { color: var(--ink2); font-size: 14px; margin: 0 0 40px; max-width: 640px; }
+  h1 { font-size: 27px; font-weight: 600; letter-spacing: 0.3px; margin: 0 0 8px; }
+  .lede { color: var(--ink2); font-size: 14px; margin: 0 0 40px; max-width: 660px; }
 
   .hero { display: grid; grid-template-columns: 300px 1fr; gap: 44px; align-items: start; margin-bottom: 48px; }
   @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 26px; } body { padding: 36px 20px 64px; } }
   .stage {
-    background: linear-gradient(160deg, #f4efe4, #eae4d6);
-    border-radius: 22px; padding: 34px; display: grid; place-items: center;
-    border: 0.5px solid var(--line);
+    background: #efefec;
+    border-radius: 6px; padding: 34px; display: grid; place-items: center;
   }
-  .stage img { width: 218px; height: 218px; display: block; border-radius: 50px; box-shadow: 0 18px 40px rgba(30,37,41,.18); }
+  .stage img { width: 218px; height: 218px; display: block; border-radius: 49px; }
 
   .notes { display: flex; flex-direction: column; gap: 20px; }
   .note { display: grid; grid-template-columns: 26px 1fr; gap: 14px; }
-  .note b { display: block; font-weight: 500; font-size: 15px; margin-bottom: 3px; }
+  .note b { display: block; font-weight: 600; font-size: 15px; margin-bottom: 3px; }
   .note p { margin: 0; color: var(--ink2); font-size: 13.5px; line-height: 1.8; }
   .num {
-    width: 26px; height: 26px; border-radius: 9px; display: grid; place-items: center;
-    background: var(--gold-soft); color: var(--gold);
-    font-size: 12px; font-weight: 600; border: 0.5px solid rgba(195,154,75,.3);
+    width: 26px; height: 26px; border-radius: 2px; display: grid; place-items: center;
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 600;
   }
 
-  h2 { font-size: 13px; letter-spacing: 2.5px; color: var(--ink3); font-weight: 500; margin: 0 0 18px; }
+  h2 { font-size: 12px; letter-spacing: 2.5px; color: var(--ink3); font-weight: 500; margin: 0 0 18px; text-transform: uppercase; }
   section { margin-bottom: 50px; }
 
-  .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 720px) { .ab { grid-template-columns: 1fr; } }
-  .ab-card { background: var(--panel); border: 0.5px solid var(--line); border-radius: 18px; padding: 20px; }
-  .ab-card.pick { border-color: rgba(195,154,75,.45); box-shadow: 0 0 0 3px rgba(195,154,75,.07); }
+  .ab-card { background: var(--panel); border: 1px solid var(--line); border-radius: 3px; padding: 20px; }
+  .ab-card.pick { border-color: #111; box-shadow: 0 0 0 1px #111; }
   .ab-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-  .ab-top svg, .ab-top img { width: 84px; height: 84px; border-radius: 20px; flex: 0 0 auto; }
-  .ab-title { font-size: 14.5px; font-weight: 500; }
+  .ab-top svg, .ab-top img { width: 84px; height: 84px; border-radius: 19px; flex: 0 0 auto; }
+  .ab-title { font-size: 14.5px; font-weight: 600; }
   .ab-sub { font-size: 11.5px; color: var(--ink3); letter-spacing: 0.5px; margin-top: 2px; }
-  .badge { display: inline-block; font-size: 10px; letter-spacing: 1px; color: var(--gold);
-    background: var(--gold-soft); border: 0.5px solid rgba(195,154,75,.32); border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
+  .badge { display: inline-block; font-size: 10px; letter-spacing: 1px; color: #fff;
+    background: #111; border-radius: 1px; padding: 1px 7px; margin-left: 6px; vertical-align: 2px; }
   .ab-card p { margin: 0; font-size: 13px; color: var(--ink2); line-height: 1.8; }
 
   .sizes { display: flex; align-items: flex-end; gap: 26px; flex-wrap: wrap; background: var(--panel);
-    border: 0.5px solid var(--line); border-radius: 18px; padding: 26px 30px; }
+    border: 1px solid var(--line); border-radius: 3px; padding: 26px 30px; }
   .sz { text-align: center; }
   .sz img { display: block; margin: 0 auto 8px; }
   .sz span { font-size: 11px; color: var(--ink3); letter-spacing: 1px; }
 
-  .scenes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: start; }
-  .scene { background: var(--panel); border: 0.5px solid var(--line); border-radius: 18px; padding: 18px; }
+  .scenes { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; align-items: start; }
+  .scene { background: var(--panel); border: 1px solid var(--line); border-radius: 3px; padding: 18px; }
   .scene > .cap { font-size: 11.5px; color: var(--ink3); letter-spacing: 1px; margin-bottom: 14px; }
 
   .chrome { background: #dee1e6; border-radius: 10px 10px 0 0; padding: 8px 8px 0; display: flex; gap: 4px; }
@@ -80,12 +76,12 @@
   .chrome-bar { background: #fff; border-radius: 0 0 10px 10px; height: 26px; }
 
   .bm { background: #fff; border-radius: 10px; padding: 9px 12px; display: flex; align-items: center; gap: 16px;
-    font-size: 11.5px; color: #3c4043; border: 0.5px solid #e2e5e9; }
+    font-size: 11.5px; color: #3c4043; border: 1px solid #e2e5e9; }
   .bm span { display: flex; align-items: center; gap: 6px; }
   .bm img { width: 14px; height: 14px; border-radius: 3px; }
   .bm .ph { width: 14px; height: 14px; border-radius: 3px; background: #c9cdd2; display: inline-block; }
 
-  .spring { background: linear-gradient(165deg, #cfd9e2, #e7e2d6); border-radius: 14px; padding: 16px 14px; }
+  .spring { background: linear-gradient(165deg, #d8dde2, #e9e7e0); border-radius: 14px; padding: 16px 14px; }
   .appgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 10px; }
   .app { text-align: center; }
   .app img { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.14); }
@@ -93,98 +89,91 @@
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); margin: 0 auto; }
   .app b { display: block; font-size: 8.5px; font-weight: 400; color: #2c3136; margin-top: 4px; }
 
-  .android { display: grid; place-items: center; background: linear-gradient(165deg,#dfe6ea,#efe9dc); border-radius: 14px; padding: 18px; }
+  .android { display: grid; place-items: center; background: #e9e9e6; border-radius: 14px; padding: 18px; }
   .android .circ { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,.15); }
   .android .circ img { width: 96px; height: 96px; display: block; }
 
-  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 0.5px solid var(--line);
-    border-radius: 14px; overflow: hidden; font-size: 13px; }
-  th, td { text-align: left; padding: 11px 14px; border-bottom: 0.5px solid var(--line); }
-  th { font-size: 11px; letter-spacing: 1.5px; color: var(--ink3); font-weight: 500; background: #fdfcf8; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 3px; overflow: hidden; font-size: 13px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+  th { font-size: 11px; letter-spacing: 1.5px; color: var(--ink3); font-weight: 500; background: #fafafa; }
   tr:last-child td { border-bottom: none; }
-  td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--brand);
-    background: #f2f6f8; padding: 1.5px 5px; border-radius: 4px; }
+  td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #111;
+    background: #f2f2f0; padding: 1.5px 5px; border-radius: 3px; }
   td:last-child { color: var(--ink2); }
 
   .swatches { display: flex; gap: 12px; flex-wrap: wrap; }
-  .sw { flex: 1 1 130px; border-radius: 12px; overflow: hidden; border: 0.5px solid var(--line); background: var(--panel); }
-  .sw i { display: block; height: 56px; box-shadow: inset 0 0 0 1px rgba(30,37,41,.07); }
+  .sw { flex: 1 1 160px; border-radius: 3px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+  .sw i { display: block; height: 60px; }
   .sw div { padding: 9px 11px; }
-  .sw b { display: block; font-size: 12px; font-weight: 500; }
+  .sw b { display: block; font-size: 12px; font-weight: 600; }
   .sw span { font-family: ui-monospace, monospace; font-size: 10.5px; color: var(--ink3); }
 
+  .quote { border-left: 2px solid #111; padding: 2px 0 2px 18px; margin: 0 0 18px;
+    font-size: 15px; color: #111; max-width: 660px; }
   .foot { margin-top: 44px; font-size: 11.5px; color: var(--ink3); }
-  .foot code { font-family: ui-monospace, monospace; background: #f2f6f8; padding: 1.5px 5px; border-radius: 4px; color: var(--brand); }
+  .foot code { font-family: ui-monospace, monospace; background: #f2f2f0; padding: 1.5px 5px; border-radius: 3px; color: #111; }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="10" y1="14" x2="54" y2="54">
-    <stop offset="0" stop-color="#fdf3e0"/><stop offset=".5" stop-color="#dcb877"/><stop offset="1" stop-color="#bf9445"/>
-  </linearGradient>
-  <symbol id="yMark" viewBox="0 0 64 64">
-    <rect width="64" height="64" rx="14.5" fill="#1e2529"/>
-    <g fill="none" stroke="url(#mark)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M32 52V35.5"/><path d="M32 35.5 22.8 17.5"/><path d="M32 35.5 41.2 19"/>
-    </g>
-  </symbol>
-</defs></svg>
-
 <div class="wrap">
   <p class="kicker">Favicon / App Icon</p>
-  <h1>一条大路，一条支路</h1>
-  <p class="lede">没画雨，也没画人物。画的是一个路口——游戏第一屏就是「18 岁那个岔路口」。而 T 这个形状，恰好也是 TimelyRain 的首字母；英文里 T-junction 就是丁字路口。</p>
+  <h1>一个路口，斜着摆</h1>
+  <p class="lede">把 T 旋转 45°：横变成那条大路，竖变成从路中间岔出去的一支。只有黑白两色，方头切口，没有渐变、没有投影——像一张只有墨和纸的海报。</p>
 
   <div class="hero">
     <div class="stage"><img src="./public/icon-512.png" alt="图标 512px" /></div>
     <div class="notes">
       <div class="note"><div class="num">01</div><div>
-        <b>横：那条大路</b>
-        <p>一条粗笔（7.8）横贯画面，中段微微起伏——不是尺子画的直线，是一条真的路。它代表走到 18 岁时那条看得见的直路。</p>
+        <b>一条大路，一支岔</b>
+        <p>长笔从画面左下贯穿到右上，短笔从它的正中岔向下右。两笔等粗（9.5）、方头切口——没有主次，只有「你走了哪条，哪条留在身后」。</p>
       </div></div>
       <div class="note"><div class="num">02</div><div>
-        <b>竖：走进去的支路</b>
-        <p>明显更细（5.9），从横线下方垂直延伸出去。两条笔画的粗细差就是主次——路口的意义正在于「你走了哪条，哪条留在身后」。</p>
+        <b>转 45° 就变成一个 T</b>
+        <p>这是 T 的首字母，也是丁字路口本身（英文 T-junction 就是丁字路口）。斜着摆是为了让它像「被看见的一个动作」，而不是印刷体。一个形状，两个意思。</p>
       </div></div>
       <div class="note"><div class="num">03</div><div>
-        <b>墨底 + 晨光金，和站点同一套色</b>
-        <p>底取正文色 <code>#1e2529</code>，笔画是 <code>#fdf3e0 → #bf9445</code> 的三段渐变，与 h1 晨光、拼图渐变同源。深底在浅色标签栏先被看见，金线在深色标签栏也亮得住。</p>
+        <b>只有黑白</b>
+        <p>底 <code>#0a0a0a</code>，形 <code>#ffffff</code>。深底在浅色标签栏里先被看见，白形在深色标签栏里也亮得住；两色之间没有第三种需要解释的颜色。</p>
       </div></div>
     </div>
   </div>
 
   <section>
-    <h2>为什么不再用雨滴</h2>
-    <p style="margin:-6px 0 18px;color:#5d6a72;font-size:13.5px;max-width:680px">
-      雨滴只能说明「及时雨」这个 ID，说不出「人生重开」这件事。而这个游戏的一切都从路口开始：18 岁、高考结束、四条岔路。用路口做图标，等于把游戏的第一屏压缩成了一个符号。T 又刚好是 IP 的首字母——一个形状，两个意思。
+    <p class="quote">好的标识不靠颜色说服人，靠比例和切口。</p>
+    <p style="margin:0;color:#5a5a5a;font-size:13.5px;max-width:680px">
+      上一版是墨底加晨光金渐变、圆头笔画，暖、软，像一支笔写下的字。这一版走了相反的方向：纯黑白、方头、45° 斜切，像盖上去的一块印。之所以换，是因为图标在 16px 的标签栏里不是「插图」，是「标识」——插图靠细节活着，标识靠在最糊的时候还认得出骨架。
     </p>
   </section>
 
   <section>
-    <h2>两个方案（B 是备选）</h2>
+    <h2>两个版本</h2>
     <div class="ab">
       <div class="ab-card pick">
         <div class="ab-top">
           <img src="./public/icon-512.png" alt="" />
           <div>
-            <div class="ab-title">A · T 型路口<span class="badge">已采用</span></div>
-            <div class="ab-sub">IP 首字母 + 丁字路口</div>
+            <div class="ab-title">A · 两笔<span class="badge">已采用</span></div>
+            <div class="ab-sub">favicon / iOS / PWA 全用这个</div>
           </div>
         </div>
-        <p>横粗竖细，主次分明。既读得出「T」（TimelyRain），也读得出「一个路口」。两件事共用一笔，是这套方案最值钱的地方。</p>
+        <p>只有两笔。笔画之间的距离就是全部信息，缩小到 16px 也不会多出任何一根要辨认的线。所有系统图标都用它。</p>
       </div>
       <div class="ab-card">
         <div class="ab-top">
-          <svg><use href="#yMark"/></svg>
+          <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14.5" fill="#0a0a0a"/>
+            <g fill="none" stroke="#fff" stroke-linecap="butt" stroke-width="9.5">
+              <path d="M12 52 L52 12"/><path d="M32 32 L47 47"/>
+            </g><rect x="17.6" y="17.6" width="8.8" height="8.8" fill="#fff"/></svg>
           <div>
-            <div class="ab-title">B · Y 岔路</div>
-            <div class="ab-sub">最直白的「选择」</div>
+            <div class="ab-title">B · 两笔 + 一点</div>
+            <div class="ab-sub">海报 / 活动封面 / 社媒头像</div>
           </div>
         </div>
-        <p>一眼就是分岔，不需要解释。两枝角度略微不对称——总有一条是你没走的。缺点是它读起来还是更像一个字母 Y，和 IP 没关系。</p>
+        <p>多点一个方点，画面就多一口气，像海报角落的落款。但点在 16px 里会变成一个灰渣，所以只用在有尺寸的地方，不进 favicon。</p>
       </div>
     </div>
-    <p style="margin:14px 0 0;font-size:12.5px;color:#9aa4aa">换 B：把 <code style="font-family:ui-monospace,monospace">tools/make-icons.mjs</code> 里的 <code style="font-family:ui-monospace,monospace">MARK</code> 改成 <code style="font-family:ui-monospace,monospace">'Y'</code>，跑一次就重出全套。</p>
+    <p style="margin:14px 0 0;font-size:12.5px;color:#9a9a9a">换 B：把 <code style="font-family:ui-monospace,monospace">tools/make-icons.mjs</code> 里的 <code style="font-family:ui-monospace,monospace">MARK</code> 改成 <code style="font-family:ui-monospace,monospace">'dot'</code>。</p>
   </section>
 
   <section>
@@ -195,8 +184,8 @@
       <div class="sz"><img src="./public/icon-180.png" width="48" height="48" /><span>180</span></div>
       <div class="sz"><img src="./public/icon-32.png" width="32" height="32" /><span>32</span></div>
       <div class="sz"><img src="./public/icon-32.png" width="16" height="16" /><span>16</span></div>
-      <div class="sz" style="margin-left:auto;max-width:330px;text-align:left;color:#5d6a72;font-size:12.5px">
-        16px 是浏览器标签页的真实尺寸。两条笔画的粗细差在这里只剩半个像素，但「一横一竖」的骨架仍然成立——这正是当初否掉细线方案（雨滴溅开、两级树枝）的原因。
+      <div class="sz" style="margin-left:auto;max-width:330px;text-align:left;color:#5a5a5a;font-size:12.5px">
+        16px 是浏览器标签页的真实尺寸。在这张图里，斜笔只剩 2.4px 宽，但折角还在——「一个箭头朝右上、一条岔路往下」的骨架仍然成立。这是简单图形才做得到的事。
       </div>
     </div>
   </section>
@@ -247,11 +236,10 @@
   <section>
     <h2>配色</h2>
     <div class="swatches">
-      <div class="sw"><i style="background:#1e2529"></i><div><b>墨底</b><span>#1e2529</span></div></div>
-      <div class="sw"><i style="background:#fdf3e0"></i><div><b>笔画高光</b><span>#fdf3e0</span></div></div>
-      <div class="sw"><i style="background:#dcb877"></i><div><b>晨光金</b><span>#dcb877</span></div></div>
-      <div class="sw"><i style="background:#bf9445"></i><div><b>笔画暗部</b><span>#bf9445</span></div></div>
+      <div class="sw"><i style="background:#0a0a0a"></i><div><b>底</b><span>#0a0a0a</span></div></div>
+      <div class="sw"><i style="background:#ffffff;box-shadow:inset 0 0 0 1px #eee"></i><div><b>形</b><span>#ffffff</span></div></div>
     </div>
+    <p style="margin:14px 0 0;font-size:12.5px;color:#9a9a9a">两色之外没有第三个颜色。想要「重音」的时候加点，不靠加颜色。</p>
   </section>
 
   <section>
@@ -263,14 +251,14 @@
         <tr><td><code>favicon.ico</code></td><td>16 / 32 / 48</td><td>老浏览器与 Windows 任务栏兜底</td></tr>
         <tr><td><code>apple-touch-icon.png</code></td><td>180</td><td>iOS「添加到主屏幕」；满出血不透明，让系统自己裁圆角</td></tr>
         <tr><td><code>icon-192.png</code> / <code>icon-512.png</code></td><td>192 / 512</td><td>PWA 安装、Android 桌面</td></tr>
-        <tr><td><code>icon-maskable-512.png</code></td><td>512</td><td>Android 圆形/方形蒙版，内容收在中间 80% 安全区</td></tr>
+        <tr><td><code>icon-maskable-512.png</code></td><td>512</td><td>Android 圆形/方形蒙版，图形收在中间 40% 半径以内</td></tr>
         <tr><td><code>safari-pinned-tab.svg</code></td><td>矢量单色</td><td>Safari 固定标签页，靠系统上色</td></tr>
         <tr><td><code>manifest.webmanifest</code></td><td>—</td><td>让「添加到主屏幕」成为独立 App（无地址栏）</td></tr>
       </tbody>
     </table>
   </section>
 
-  <p class="foot">改色或换图形重出全套：<code>node tools/make-icons.mjs</code> —— 顶部 PALETTE 改四个色值，MARK 改 <code>'T'</code> / <code>'Y'</code>。</p>
+  <p class="foot">重出全套：<code>node tools/make-icons.mjs</code> —— 换图形改 <code>MARK</code>（<code>'T'</code> / <code>'dot'</code>），换色改 <code>PALETTE</code> 两个值。</p>
 </div>
 </body>
 </html>

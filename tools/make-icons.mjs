@@ -1,7 +1,7 @@
 // tools/make-icons.mjs — 从一份 SVG 定义生成全站图标（favicon / iOS / PWA）
 // 说明：本脚本依赖 playwright 的 chromium 做 SVG→PNG 栅格化，不在 package.json 里，
 //      跑之前先 `npx playwright install chromium` 或用本机已有 chromium。
-//      改品牌色改 PALETTE；换图形改 MARK（'T' 丁字路口 / 'Y' 岔路），再跑一次即可。
+//      换图形改 MARKS/MARK，换色改 PALETTE，再跑一次即可。
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import pw from 'file:///C:/Users/86176/AppData/Roaming/npm/node_modules/@playwright/cli/node_modules/playwright-core/index.js';
@@ -10,46 +10,38 @@ import pw from 'file:///C:/Users/86176/AppData/Roaming/npm/node_modules/@playwri
 const OUT = fileURLToPath(new URL('../public/', import.meta.url));
 mkdirSync(OUT, { recursive: true });
 
+// 黑白二色。海报式标识不需要第三个颜色——对比度就是它的工艺。
 const PALETTE = {
-  ink: '#1e2529',   // 底：与正文色同源的墨蓝
-  g1: '#fdf3e0',    // 笔画高光
-  g2: '#dcb877',    // 晨光金
-  g3: '#bf9445',    // 笔画暗部
+  ink: '#0a0a0a',    // 底：近黑，不用纯 #000，屏幕上边缘更软
+  paper: '#ffffff',  // 形：纯白
 };
 
-// 图形：主线 + 支路。两条几何都留在下面，改 MARK 一行就能换。
-const MARK = 'T';
+// ── 图形（viewBox 0 0 64 64）────────────────────────────────
+// 主形：把字母 T 旋转 45°。
+//   横（长笔）→ 那条谁都看得见的大路；竖（短笔）→ 从路中间岔出去的一支。
+//   一个形状，既是 TimelyRain 的首字母，也是「路口」本身。
+const T45 = (c, { w = 9.5, tail = 47 } = {}) =>
+  `<g fill="none" stroke="${c}" stroke-linecap="butt" stroke-linejoin="miter">
+     <path d="M12 52 L52 12" stroke-width="${w}"/>
+     <path d="M32 32 L${tail} ${tail}" stroke-width="${w}"/>
+   </g>`;
+
+// 备选：同款两笔 + 一个方点（海报版，用于封面/横幅，不做 favicon）
+const T45dot = (c, { w = 9.5, tail = 47 } = {}) =>
+  T45(c, { w, tail }) + `<rect x="17.6" y="17.6" width="8.8" height="8.8" fill="${c}"/>`;
+
 const MARKS = {
-  // T 型路口：横是那条大路（粗），竖是走进去的支路（细）。T 也是 TimelyRain 的首字母，
-  // 英文里 T-junction 就是丁字路口 —— IP 与主题共用一笔。
-  T: `<g fill="none" stroke="url(#mark)" stroke-linecap="round">
-        <path d="M13 26.5Q32 24.2 51 26.5" stroke-width="7.8"/>
-        <path d="M32 28.4V51" stroke-width="5.9"/>
-      </g>`,
-  // Y 岔路：一眼就是分叉与选择。两枝角度略微不对称——总有一条是你没走的。
-  Y: `<g fill="none" stroke="url(#mark)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M32 52V35.5"/>
-        <path d="M32 35.5 22.8 17.5"/>
-        <path d="M32 35.5 41.2 19"/>
-      </g>`,
+  T: (c) => T45(c),
+  dot: (c) => T45dot(c),
 };
+const MARK = 'T';
 
-// 图标主体（viewBox 0 0 64 64）。rx 传 0 = 满出血（给 iOS / maskable 用）
-// 渐变必须 userSpaceOnUse：objectBoundingBox 在零宽度的竖直笔上会退化，整笔直接不渲染（踩过）
+// 方头切口是这套图形的性格：不做圆头，不留渐变，边就是边。
 function body({ rx = 14.5, pad = 0, size = 64 } = {}) {
   const s = size / 64;
   return `
   <rect width="${size}" height="${size}" rx="${rx}" fill="${PALETTE.ink}"/>
-  <g transform="translate(${pad},${pad}) scale(${s})">
-    <defs>
-      <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="10" y1="14" x2="54" y2="54">
-        <stop offset="0" stop-color="${PALETTE.g1}"/>
-        <stop offset=".5" stop-color="${PALETTE.g2}"/>
-        <stop offset="1" stop-color="${PALETTE.g3}"/>
-      </linearGradient>
-    </defs>
-    ${MARKS[MARK]}
-  </g>`;
+  <g transform="translate(${pad},${pad}) scale(${s})">${MARKS[MARK](PALETTE.paper)}</g>`;
 }
 
 const wrap = (inner, vb = 64) =>
@@ -58,11 +50,13 @@ const wrap = (inner, vb = 64) =>
 // ── 1. 矢量 favicon（浏览器优先用这个，任意缩放都锐利） ──────────
 writeFileSync(OUT + 'icon.svg', wrap(body()) + '\n');
 
-// ── 2. Safari 固定标签页用的单色版（系统自己上色，只能有一个色） ──
-const mono = MARKS[MARK].replace(/stroke="url\(#mark\)"/g, 'stroke="#000"');
-writeFileSync(OUT + 'safari-pinned-tab.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  ${mono}
-</svg>\n`);
+// ── 2. Safari 固定标签页用的单色版（系统自己上色，只能有形状） ──
+writeFileSync(
+  OUT + 'safari-pinned-tab.svg',
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  ${MARKS[MARK]('#000')}
+</svg>\n`
+);
 
 // ── 3. 栅格化 ────────────────────────────────────────────────
 const browser = await pw.chromium.launch();
@@ -91,8 +85,12 @@ await png(wrap(body()), 192, 'icon-192.png');
 await png(wrap(body()), 512, 'icon-512.png');
 // iOS 会自己裁圆角：给满出血 + 不透明，否则套两层圆角
 await png(wrap(body({ rx: 0 })), 180, 'apple-touch-icon.png', true);
-// Android 自适应图标：内容收进中间 80% 安全区
-await png(wrap(body({ rx: 0, pad: 10, size: 80 }), 80), 512, 'icon-maskable-512.png', true);
+// Android 自适应图标：整块 80 出血铺底，图形缩进中心 40% 半径以内，
+// 蒙版（圆形/方形/水滴）怎么裁都不会切到笔画，也不会露出白角
+const maskable = `
+  <rect width="80" height="80" fill="${PALETTE.ink}"/>
+  <g transform="translate(9.6,9.6) scale(0.95)">${MARKS[MARK](PALETTE.paper)}</g>`;
+await png(wrap(maskable, 80), 512, 'icon-maskable-512.png', true);
 
 // ── 4. favicon.ico（内含 16/32/48 三个 PNG，Vista 起通用） ──────
 const icoSizes = [16, 32, 48];

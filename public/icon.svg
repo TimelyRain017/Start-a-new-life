@@ -1,15 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14.5" fill="#1e2529"/>
-  <g transform="translate(0,0) scale(1)">
-    <defs>
-      <linearGradient id="mark" gradientUnits="userSpaceOnUse" x1="10" y1="14" x2="54" y2="54">
-        <stop offset="0" stop-color="#fdf3e0"/>
-        <stop offset=".5" stop-color="#dcb877"/>
-        <stop offset="1" stop-color="#bf9445"/>
-      </linearGradient>
-    </defs>
-    <g fill="none" stroke="url(#mark)" stroke-linecap="round">
-        <path d="M13 26.5Q32 24.2 51 26.5" stroke-width="7.8"/>
-        <path d="M32 28.4V51" stroke-width="5.9"/>
-      </g>
-  </g></svg>
+  <rect width="64" height="64" rx="14.5" fill="#0a0a0a"/>
+  <g transform="translate(0,0) scale(1)"><g fill="none" stroke="#ffffff" stroke-linecap="butt" stroke-linejoin="miter">
+     <path d="M12 52 L52 12" stroke-width="9.5"/>
+     <path d="M32 32 L47 47" stroke-width="9.5"/>
+   </g></g></svg>
