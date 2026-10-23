@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.1",
+  "note": "结局与评级规则（PRD §2.6）。condition 由 engine.matchCondition 求值，支持 key op value && key op value；主结局优先级在 engine.MAIN_ORDER。",
+  "rating": { "S": 90, "A": 75, "B": 60, "C": 40, "D": 0 },
+  "endings": [
+    { "id": "peacefulDeath", "name": "寿终正寝", "as": "main", "condition": "lifespan>=85 && health>=60", "copy": "你走得平静，像一台执行完 slow shutdown 的服务器。", "spread": "正统好结局" },
+    { "id": "suddenDeath", "name": "中年猝死", "as": "main", "condition": "health<20", "copy": "体检报告你一直没去取。", "spread": "打工人共鸣梗" },
+    { "id": "prison", "name": "铁窗泪", "as": "main", "condition": "legalRisk>=80", "copy": "高墙电网之内，你还有大把时间，想清楚是从哪一步走岔的。", "spread": "踩红线合集" },
+    { "id": "financialFreedom", "name": "财务自由", "as": "main", "condition": "money>=1650000", "copy": "钱一辈子花不完，时间也是。", "spread": "晒欧" },
+    { "id": "flatMaster", "name": "躺平大师", "as": "main", "condition": "freedom>=90", "copy": "你把「不」字练成了一门艺术。", "spread": "反内卷梗" },
+    { "id": "negativeAssets", "name": "负资产人生", "as": "main", "condition": "money<0", "copy": "临终结算，账上是负数。但你这辈子，确实按自己的意思活过。", "spread": "晒非" },
+    { "id": "fraudVictim", "name": "骗局受害者", "as": "main", "condition": "fraudHits>=2", "copy": "骗子们给你上了代价最贵的几课。", "spread": "防骗教育" },
+    { "id": "ordinary", "name": "普通人的一生", "as": "main", "condition": "default", "copy": "没有传奇，也没有事故。这其实是大多数人运算出来的最优解。", "spread": "最大公约数共鸣" },
+    { "id": "peacefulDeathBadge", "name": "寿终正寝", "as": "badge", "condition": "lifespan>=85 && health>=60", "copy": "活得久，走得稳。", "spread": "徽章（主结局为其他时颁发）" },
+    { "id": "fraudFree", "name": "零中招", "as": "badge", "condition": "fraudHits==0", "copy": "一辈子没被骗子得手过。", "spread": "徽章" }
+  ]
+}

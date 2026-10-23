@@ -1,0 +1,15 @@
+{
+  "name": "life-restart",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "人生重开模拟器（HowToLiveBetter: Life Restart）— WorkBuddy 1024 造物挑战参赛作品，内容改编自《高性价比人生指南》（CC BY 4.0）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}

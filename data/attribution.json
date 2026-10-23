@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.2",
+  "note": "署名/免责/品牌集中管理（PRD F12 / CC BY 4.0 合规三件事），由 src/main.js 渲染进页脚；品牌信息用于开局标识与分享卡角标。",
+  "productName": "及时雨 · 人生重开",
+  "workTitle": "高性价比人生指南",
+  "workUrl": "https://github.com/eternity4719/HowToLiveBetter",
+  "licenseName": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "modifiedNote": "内容有修改",
+  "disclaimer": "本游戏仅为娱乐与科普，所有选项不构成医疗、法律、投资建议；身体不适请就医，法律问题请咨询律师。",
+  "hashtags": [
+    "#WorkBuddy",
+    "#1024程序员节"
+  ],
+  "brand": {
+    "name": "TR及时雨",
+    "latin": "AI Timely Rain",
+    "tagline": "好雨知时节，当春乃发生。",
+    "note": "分享卡角标与页脚展示；原作署名合规优先于品牌展示"
+  },
+  "assets": [
+    {
+      "what": "标题像素字形",
+      "name": "Fusion Pixel Font（缝合像素字体）12px Proportional",
+      "author": "TakWolf",
+      "url": "https://github.com/TakWolf/fusion-pixel-font",
+      "licenseName": "SIL OFL 1.1",
+      "licenseUrl": "https://openfontlicense.org/",
+      "note": "仅取「人生重开」四个字形，按 12×12 点阵光栅化为矢量方块（详见 src/title.js）"
+    },
+    {
+      "what": "界面图标",
+      "name": "Lucide Static",
+      "author": "Lucide Contributors",
+      "url": "https://lucide.dev",
+      "licenseName": "ISC",
+      "licenseUrl": "https://github.com/lucide-icons/lucide/blob/main/LICENSE",
+      "note": "按需内嵌 SVG path，零运行时依赖"
+    }
+  ]
+}

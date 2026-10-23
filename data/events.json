@@ -1,0 +1,576 @@
+{
+  "schemaVersion": "1.3",
+  "note": "19 个随机事件：坑事件 R1–R13 + 好运事件 L1–L6。window 为可触发年龄区间；requireFlags 全部满足、requireAnyFlags 任一满足、forbidFlags 命中即排除。好运事件必须带 prepare（前置准备说明），收益由前置选择决定。",
+  "events": [
+    {
+      "id": "L1",
+      "title": "政府培训补贴到账",
+      "luck": true,
+      "window": [18, 30],
+      "source": ["23.9"],
+      "prepare": null,
+      "scene": "手机上躺着一条短信：人社局的职业技能提升补贴公示名单里有你的名字——当年考证花的钱，政府给你报一半。",
+      "options": [
+        {
+          "text": "领取，按公示流程确认",
+          "detail": "补贴直接打到社保卡金融账户",
+          "cost": {},
+          "gain": { "money": 1500, "freedom": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 23, "no": 9, "title": "想学点什么，先查政府的职业技能培训补贴目录，很多课程个人不花钱" }
+        },
+        {
+          "text": "懒得管，错过公示期",
+          "detail": "短信沉底了。政策不等人",
+          "cost": {},
+          "gain": { "freedom": -2 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 23, "no": 9, "title": "想学点什么，先查政府的职业技能培训补贴目录，很多课程个人不花钱" }
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "title": "个税汇算退税",
+      "luck": true,
+      "window": [23, 50],
+      "source": ["05.2"],
+      "prepare": null,
+      "scene": "个税 App 推送：你有一笔 3280 元的退税待领取。同事说他从来没点过这个，一直以为是诈骗短信。",
+      "options": [
+        {
+          "text": "填专项附加扣除，把税退回来",
+          "detail": "房租、赡养老人、继续教育，填了就能抵",
+          "cost": { "energy": 15 },
+          "gain": { "money": 3280, "freedom": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 2, "title": "每年三月到六月做一次个税汇算，专项附加扣除该填的填" }
+        },
+        {
+          "text": "嫌麻烦，不管了",
+          "detail": "这笔钱不会自己回来",
+          "cost": {},
+          "gain": { "freedom": -2 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 2, "title": "每年三月到六月做一次个税汇算，专项附加扣除该填的填" }
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "title": "老同学内推",
+      "luck": true,
+      "window": [22, 36],
+      "requireAnyFlags": ["educated", "skilled"],
+      "source": ["23.2", "19.1"],
+      "prepare": "18 岁那年你选了去上大学 / 学门手艺——简历上那几年，现在开始付利息",
+      "scene": "高中同学突然发消息：我们组在招人，你这个背景挺合适，我内推你。后面跟着一句：不过我这边也有面试官要打分。",
+      "options": [
+        {
+          "text": "把简历改一版，认真聊",
+          "detail": "内推不是送礼，是把你的可验证经历摆到对方面前",
+          "cost": { "energy": 20 },
+          "gain": { "money": 60000, "freedom": 5 },
+          "flags": ["referred"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 23, "no": 2, "title": "把「读书有没有用」也放进死亡率账里" }
+        },
+        {
+          "text": "算了，现在这样也行",
+          "detail": "机会以后还有——这句话大多数人说过不止一次",
+          "cost": {},
+          "gain": { "freedom": -3 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 23, "no": 2, "title": "把「读书有没有用」也放进死亡率账里" }
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "title": "医保家庭共济",
+      "luck": true,
+      "window": [28, 52],
+      "source": ["05.13"],
+      "prepare": null,
+      "scene": "医保 App 弹窗：职工医保个人账户的钱，可以给配偶、父母、子女看病买药。母亲的降压药每月自费两百多。",
+      "options": [
+        {
+          "text": "绑定家庭共济",
+          "detail": "几分钟的操作，一年的药钱省下来了",
+          "cost": { "energy": 10 },
+          "gain": { "money": 3600, "health": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 13, "title": "在医保 App 上办一次家庭共济绑定，职工医保个人账户的钱就能给配偶、父母、子女看病买药" }
+        },
+        {
+          "text": "没当回事",
+          "detail": "这笔钱一直在账户里躺着",
+          "cost": {},
+          "gain": { "freedom": 0 },
+          "flags": [],
+          "choice": "neutral",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 13, "title": "在医保 App 上办一次家庭共济绑定，职工医保个人账户的钱就能给配偶、父母、子女看病买药" }
+        }
+      ]
+    },
+    {
+      "id": "L5",
+      "title": "筛查拦下了一个东西",
+      "luck": true,
+      "window": [44, 58],
+      "requireFlags": ["healthScreened"],
+      "source": ["01.19"],
+      "prepare": "40 岁那年你按年龄做了有证据的筛查——那一次，你抓住了时间",
+      "scene": "肠镜报告上写着：发现一枚 0.8 厘米息肉，已切除，病理良性。医生说你运气不错，这东西再长五到十年，可能就是别的东西了。",
+      "options": [
+        {
+          "text": "按医嘱三年后复查",
+          "detail": "切掉了不等于结束了",
+          "cost": { "money": -3000 },
+          "gain": { "health": 12, "lifespan": 4 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 19, "title": "45 到 50 岁起做结直肠癌筛查，做查大便隐血的粪便免疫化学检测或者肠镜" }
+        },
+        {
+          "text": "切了就没事了，不用再查",
+          "detail": "五年后你又坐回了同一张检查椅",
+          "cost": {},
+          "gain": { "health": -4 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 19, "title": "45 到 50 岁起做结直肠癌筛查，做查大便隐血的粪便免疫化学检测或者肠镜" }
+        }
+      ]
+    },
+    {
+      "id": "L6",
+      "title": "账户里的数字",
+      "luck": true,
+      "window": [40, 56],
+      "requireFlags": ["invested"],
+      "source": ["05.15", "05.17"],
+      "prepare": "26 岁那年你没买房，把每年六万放进了宽基指数——现在它开始说话了",
+      "scene": "账户里的数字第一次让你愣住：这些年定投的钱，比你想的多得多。朋友劝你：都这么高了，赶紧全卖了。",
+      "options": [
+        {
+          "text": "不频繁交易，按事先定的规则再平衡",
+          "detail": "行情暴涨暴跌的时候，更要少动手",
+          "cost": {},
+          "gain": { "money": 120000, "freedom": 4 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 15, "title": "不频繁交易股票，行情暴涨暴跌的时候更要少动手" }
+        },
+        {
+          "text": "全卖了，加杠杆追下一个",
+          "detail": "你卖在了高点，也买在了高点",
+          "cost": {},
+          "gain": { "money": -80000, "health": -4 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 16, "title": "不借钱投资、不加杠杆、不买自己看不懂的" }
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "title": "刷单兼职广告",
+      "window": [18, 55],
+      "source": ["08.3"],
+      "scene": "兼职群里有人发广告：给店铺刷销量，一单返 8 元，垫付越多返得越多，日结。",
+      "options": [
+        {
+          "text": "官方渠道核实，退群",
+          "detail": "来电不轻信、信息不透露、链接不点击、转账多核实",
+          "cost": {},
+          "gain": { "freedom": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 3, "title": "记住反诈硬规则：来电不轻信、信息不透露、链接不点击、转账多核实，七种最常见的骗局都是这个形状" }
+        },
+        {
+          "text": "先刷三单试试",
+          "detail": "前两单真的返了钱，第三单要垫付 500",
+          "cost": {},
+          "gain": { "money": -20000, "fraudHits": 1 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 3, "title": "记住反诈硬规则：来电不轻信、信息不透露、链接不点击、转账多核实，七种最常见的骗局都是这个形状" }
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "title": "自称公安的电话",
+      "window": [22, 55],
+      "source": ["08.3", "08.4"],
+      "scene": "电话那头说自己是某地公安，你涉嫌一起洗钱案，要你加一个「办案」账号，把资金转到安全账户接受核查。对方报出了你的身份证号，一字不差。",
+      "options": [
+        {
+          "text": "挂断，打 110 或 96110 核实",
+          "detail": "真办案不会让你转账，也不会用电话通知你「清查资金」",
+          "cost": {},
+          "gain": { "freedom": 4 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 3, "title": "记住反诈硬规则：来电不轻信、信息不透露、链接不点击、转账多核实，七种最常见的骗局都是这个形状" }
+        },
+        {
+          "text": "按对方说的转过去",
+          "detail": "转账那一刻你还在想：配合调查总没错",
+          "cost": {},
+          "gain": { "money": -60000, "fraudHits": 1 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 4, "title": "视频里看见脸、电话里听见声音都不算核实，涉及转账先挂断，用自己通讯录里的旧号码打回去" }
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "title": "聊了两个月的人",
+      "window": [25, 42],
+      "source": ["08.3", "08.4"],
+      "scene": "网上认识一个人，聊了两个月，从没视频过。她/他说表哥在做量化，收益很稳，让我也试试，先投五千就好。",
+      "options": [
+        {
+          "text": "不投，先视频核实",
+          "detail": "连脸都没见过的人，凭什么带你赚钱",
+          "cost": {},
+          "gain": { "freedom": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 4, "title": "视频里看见脸、电话里听见声音都不算核实，涉及转账先挂断，用自己通讯录里的旧号码打回去" }
+        },
+        {
+          "text": "先投五千，试水",
+          "detail": "第一周真的提出来了。第二周，账户锁定，需要充值解冻",
+          "cost": {},
+          "gain": { "money": -50000, "fraudHits": 1 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 3, "title": "记住反诈硬规则：来电不轻信、信息不透露、链接不点击、转账多核实，七种最常见的骗局都是这个形状" }
+        }
+      ]
+    },
+    {
+      "id": "R4",
+      "title": "房东让你一个月内搬走",
+      "window": [24, 34],
+      "requireFlags": ["rented"],
+      "source": ["15.5", "15.2"],
+      "scene": "房东突然来电话，说房子要卖，让你一个月内搬走。中介说：签了这份放弃补偿的协议，押金今天就退你。",
+      "options": [
+        {
+          "text": "不签。租期内房子被卖，租约继续有效",
+          "detail": "被断水断电、换锁赶人，先报警留证",
+          "cost": {},
+          "gain": { "freedom": 5, "money": 6000 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 15, "no": 5, "title": "房子租期内被卖掉，租约继续有效，不用搬" }
+        },
+        {
+          "text": "签了，赶紧搬",
+          "detail": "押金扣了一半，新房的押一付三又掏了一遍",
+          "cost": {},
+          "gain": { "money": -15000, "freedom": -5 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 15, "no": 2, "title": "被断水断电、换锁、上门威胁赶人，先报警留证：法规禁止用这些方式逼你腾房" }
+        }
+      ]
+    },
+    {
+      "id": "R5",
+      "title": "账单里的 648",
+      "window": [32, 46],
+      "requireFlags": ["hasChild"],
+      "source": ["05.9", "05.10"],
+      "scene": "手机账单里出现 12 笔 648 元的充值，来自你八岁的孩子。平台客服说：账号是成年人实名，退不了。",
+      "options": [
+        {
+          "text": "提交未成年人充值证明，要求退款",
+          "detail": "八岁以上的大额支出，未经家长追认可以主张退",
+          "cost": { "energy": 20 },
+          "gain": { "money": 7000, "freedom": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 9, "title": "孩子用手机充值打赏，八岁以上的大额支出未经家长追认可以主张退" }
+        },
+        {
+          "text": "算了，当交学费",
+          "detail": "下个月还有一笔",
+          "cost": {},
+          "gain": { "money": -7776, "freedom": -2 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 10, "title": "教孩子记一句话：网上任何人让你拿家长的手机去操作、去报验证码，都是骗子" }
+        }
+      ]
+    },
+    {
+      "id": "R6",
+      "title": "半夜报警器响了",
+      "window": [26, 58],
+      "source": ["13.19", "01.3"],
+      "scene": "凌晨三点，一氧化碳报警器尖响。你头有点沉，以为是感冒。厨房的燃气热水器还在烧，窗户关着。",
+      "options": [
+        {
+          "text": "先出门，再打 119 和 120",
+          "detail": "先离开这间屋子，再打电话",
+          "cost": {},
+          "gain": { "health": 8, "lifespan": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 13, "no": 19, "title": "一氧化碳报警器响了，或者一屋子人同时头痛恶心，先出门再打电话" }
+        },
+        {
+          "text": "关掉报警器，继续睡",
+          "detail": "早上是邻居报的警",
+          "cost": {},
+          "gain": { "health": -25, "lifespan": -6 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 3, "title": "装烟雾报警器；冬天在室内烧煤、用燃气取暖的再装一氧化碳报警器" }
+        }
+      ]
+    },
+    {
+      "id": "R7",
+      "title": "十年没联系的同学",
+      "window": [28, 52],
+      "source": ["08.18"],
+      "scene": "一个十年没联系的同学突然找你，说周转三个月，借五万，利息照给。他发来一张借条照片，金额那一栏是空的。",
+      "options": [
+        {
+          "text": "写清借条再借，写不清就不借",
+          "detail": "替人担保前，先想清楚自己愿不愿意替他还",
+          "cost": {},
+          "gain": { "freedom": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 18, "title": "借钱写清借条，替人担保前先想清楚自己愿不愿意替他还" }
+        },
+        {
+          "text": "转了五万，借条都没写",
+          "detail": "三个月后，他的头像灰了",
+          "cost": {},
+          "gain": { "money": -50000 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 18, "title": "借钱写清借条，替人担保前先想清楚自己愿不愿意替他还" }
+        }
+      ]
+    },
+    {
+      "id": "R8",
+      "title": "母亲说的养老项目",
+      "window": [45, 58],
+      "source": ["17.5", "17.6"],
+      "scene": "母亲兴冲冲地说，小区里有人推荐了一个养老项目：交二十万买床位，每年返 12%。她说好多老人都交了，明天就想去。",
+      "options": [
+        {
+          "text": "拦住。让老人先交钱的都别碰",
+          "detail": "办卡、买床位、买养老公寓，是同一套非法集资",
+          "cost": { "energy": 20 },
+          "gain": { "freedom": 6, "health": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 17, "no": 5, "title": "凡是让老人先交钱的「投资养老」都别碰：办卡、买床位、买养老公寓、旅居养老、买老年产品是同一套非法集资" }
+        },
+        {
+          "text": "由着她去",
+          "detail": "半年后，那家公司的门店换成了奶茶店",
+          "cost": {},
+          "gain": { "money": -200000, "fraudHits": 1 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 17, "no": 6, "title": "除了保险公司的住房反向抵押养老保险，其他「以房养老」都别碰，绝不抵押房子去买理财" }
+        }
+      ]
+    },
+    {
+      "id": "R9",
+      "title": "端咖啡的手在抖",
+      "window": [26, 42],
+      "source": ["01.44"],
+      "scene": "连着三周十一点下班。这天早上你端咖啡时手在抖，心跳得很快，坐下十分钟也没缓过来。",
+      "options": [
+        {
+          "text": "请假去医院查一次",
+          "detail": "心慌、心跳乱就去做心电图，别自己猜",
+          "cost": { "money": -3000, "energy": 20 },
+          "gain": { "health": 8, "freedom": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 44, "title": "心慌、心跳乱就去做心电图，查出房颤请医生评估吃抗凝药防中风，别拿阿司匹林代替" }
+        },
+        {
+          "text": "再喝一杯，撑过这周",
+          "detail": "这一周的活干完了，代价记在别处",
+          "cost": {},
+          "gain": { "health": -10, "lifespan": -2 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 44, "title": "心慌、心跳乱就去做心电图，查出房颤请医生评估吃抗凝药防中风，别拿阿司匹林代替" }
+        }
+      ]
+    },
+    {
+      "id": "R10",
+      "title": "楼道里的电动车",
+      "window": [26, 55],
+      "source": ["01.6", "13.24"],
+      "scene": "邻居又把电动车推进楼道充电，插线板从门缝里拖出来。物业说管不了，你说了两次，对方嫌你多事。",
+      "options": [
+        {
+          "text": "拍照留证，向消防和街道投诉",
+          "detail": "电动车不进楼道、不进电梯、不在家里充电",
+          "cost": { "energy": 15 },
+          "gain": { "health": 2, "freedom": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 6, "title": "电动自行车不推进楼道、不进电梯、不在家里充电" }
+        },
+        {
+          "text": "忍了，都是邻居",
+          "detail": "有些风险不出事时看不见",
+          "cost": {},
+          "gain": { "health": -10, "lifespan": -4 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 13, "no": 24, "title": "火灾时贴地爬、摸门再开门、门烫就别开，走楼梯不坐电梯，出去了别回头" }
+        }
+      ]
+    },
+    {
+      "id": "R11",
+      "title": "一天三百的跑分",
+      "window": [22, 38],
+      "source": ["08.8"],
+      "scene": "群里有人招「跑分」：用你的银行卡过一下账，一天给三百。他说这不算什么，很多人都做，只是走个流水。",
+      "options": [
+        {
+          "text": "拒绝，这不叫兼职",
+          "detail": "银行卡、手机卡、支付账号，一个都不借人",
+          "cost": {},
+          "gain": { "freedom": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 8, "title": "不把银行卡、手机卡、支付账号借给任何人，「跑分」不是兼职" }
+        },
+        {
+          "text": "试一天",
+          "detail": "三百块到手第三天，卡被冻结，人被叫去问话",
+          "cost": {},
+          "gain": { "money": 300, "legalRisk": 40 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 8, "title": "不把银行卡、手机卡、支付账号借给任何人，「跑分」不是兼职" }
+        }
+      ]
+    },
+    {
+      "id": "R12",
+      "title": "内部渠道，月息 8%",
+      "window": [28, 50],
+      "source": ["05.6"],
+      "scene": "老同学拉你进一个群，说内部渠道，月收益 8%，随时可提。群里每天都有人晒到账截图，还有人 @ 你：兄弟跟上。",
+      "options": [
+        {
+          "text": "看到「高收益」「保本」就退群",
+          "detail": "这两句话放在一起，本身就是答案",
+          "cost": {},
+          "gain": { "freedom": 4 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 6, "title": "看到「高收益」「保本」「稳赚」直接走开" }
+        },
+        {
+          "text": "投十万",
+          "detail": "前两个月按时到账。第三个月，群解散了",
+          "cost": {},
+          "gain": { "money": -100000, "fraudHits": 1 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 6, "title": "看到「高收益」「保本」「稳赚」直接走开" }
+        }
+      ]
+    },
+    {
+      "id": "R13",
+      "title": "存款去向",
+      "window": [30, 35],
+      "requireFlags": ["marriedNoMoneyTalk"],
+      "source": ["10.9", "10.10"],
+      "scene": "结婚第三年，对方整理银行卡时发现你还有一笔从没提过的账。没吵，只是问：这些钱，你当时是怎么想的？",
+      "options": [
+        {
+          "text": "开一个共同账本，把钱账谈清",
+          "detail": "按无酬劳动重新分工，大额支出互相知情——那颗雷拆掉了",
+          "cost": { "energy": 20 },
+          "gain": { "freedom": 5 },
+          "flags": ["defusedMoneyBomb"],
+          "clearFlags": ["marriedNoMoneyTalk"],
+          "choice": "good",
+          "evidence": "B",
+          "ref": { "chapter": 10, "no": 9, "title": "时间账按「无酬劳动」算，谈清分工再领证" }
+        },
+        {
+          "text": "「我的钱你别管」",
+          "detail": "话说完你自己也愣了。有些雷，拖着不排，只会越拖越大",
+          "cost": {},
+          "gain": { "freedom": -10 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "B",
+          "ref": { "chapter": 10, "no": 10, "title": "结婚的钱账先看法律默认规则，再决定要不要书面约定" }
+        }
+      ]
+    }
+  ]
+}

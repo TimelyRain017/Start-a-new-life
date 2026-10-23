@@ -1,0 +1,890 @@
+{
+  "schemaVersion": "1.3",
+  "note": "24 个决策点全部录入（7 个阶段：18/22/25/28/32/40/55 岁）。选项字段：text/detail/cost/gain/flags/clearFlags/choice(good|neutral|pit)/evidence/ref/hiddenSettlement/bypassCap；决策级字段 requireFlags/forbidFlags/bombIfFlag。bypassCap=true 表示主动支出不受叠罚上限约束（买房、创业投入）；bombIfFlag 为隐藏计时炸弹（PRD §2.4 #19）。所有出处编号均已对照《高性价比人生指南》原文核对。",
+  "stages": {
+    "1": {
+      "age": 18,
+      "title": "岔路口",
+      "intro": "查分网站卡了三次才打开。分数不上不下，够一本线，但也够得上家门口那所不错的一本。从今天起，人生的默认设置归你自己调了。"
+    },
+    "2": {
+      "age": 22,
+      "title": "入世",
+      "intro": "毕业照拍完第三天，行李箱还没拆。宿舍群里有人晒 offer，有人晒考研成绩，有人发「22 岁，我决定不上班」。第一份工作选的不是工资，是接下来几年你被谁、被什么规则管辖。"
+    },
+    "3": {
+      "age": 25,
+      "title": "第一笔真正的账",
+      "intro": "工资卡里的数字第一次超过五位数。你开始明白，钱不是赚多少决定的，是留下来多少决定的。而住哪儿、买什么、信谁打来的电话，都在悄悄改写这个数。"
+    },
+    "4": {
+      "age": 28,
+      "title": "关系",
+      "intro": "身边陆续有人结婚，也陆续有人离婚。你发现感情从来不是只有喜欢这一项——时间怎么分、钱怎么算、要不要孩子，都是要提前谈的。"
+    },
+    "5": {
+      "age": 32,
+      "title": "风浪",
+      "intro": "公司开始开会开到晚上十点。有人辞职创业，有人被通知优化，有人在体检报告上第一次看到异常箭头。三十岁之后，人生不再是加法题。"
+    },
+    "6": {
+      "age": 40,
+      "title": "身体开始报价",
+      "intro": "你开始记得父母的年龄，也开始记得自己的。体检、补剂、急救——这一岁做的每个选择，都会在二十年后按复利结账。"
+    },
+    "7": {
+      "age": 55,
+      "title": "父母的黄昏",
+      "intro": "父亲住院那次，你在走廊里坐了一夜。你忽然意识到，自己已经在队伍的最前面了。这一岁之后，人生开始收尾。"
+    }
+  },
+  "decisions": [
+    {
+      "id": "S1D1",
+      "stage": 1,
+      "age": 18,
+      "title": "高考结束那天",
+      "scene": "200X 年 6 月，查分网站卡了三次才打开。班主任在群里发志愿填报说明，父母在客厅压低声音争论。接下来去哪，得你自己定。",
+      "source": ["31.1", "23.6"],
+      "options": [
+        {
+          "text": "去上大学",
+          "detail": "学费走助学贷款，录取通知书里夹着资助政策手册，勤工俭学能顶上生活费",
+          "cost": { "time": 4 },
+          "gain": { "lifespan": 2 },
+          "flags": ["educated"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 23, "no": 2, "title": "把「读书有没有用」也放进死亡率账里" }
+        },
+        {
+          "text": "去学门手艺",
+          "detail": "表哥说工地上的焊工证培训三个月包分配，学费 8000，要动手、要现场判断的活计",
+          "cost": { "money": -8000, "time": 1 },
+          "gain": { "freedom": 8 },
+          "flags": ["skilled"],
+          "choice": "good",
+          "evidence": "B",
+          "ref": { "chapter": 23, "no": 10, "title": "挑技能优先看「要不要动手、要不要现场判断」" }
+        },
+        {
+          "text": "直接打工",
+          "detail": "同乡说广东的工厂在招人，一个月 3000，干满三月算老员工",
+          "cost": { "energy": 30, "time": 1 },
+          "gain": { "money": 36000, "lifespan": -2, "freedom": -10 },
+          "flags": [],
+          "choice": "neutral",
+          "evidence": "B",
+          "ref": { "chapter": 23, "no": 6, "title": "把「读书还是打工」算成一道题" }
+        },
+        {
+          "text": "应征入伍",
+          "detail": "武装部在贴征兵公告：义务兵服现役两年，学费补偿、学籍保留、退役金一样不落",
+          "cost": { "time": 2, "freedom": -8 },
+          "gain": { "money": 45000, "lifespan": 1 },
+          "flags": ["veteran"],
+          "choice": "neutral",
+          "evidence": "A",
+          "ref": { "chapter": 31, "no": 4, "title": "大学生当兵最实的两块：学费每年补最高 20000 元，学籍保留到退役后两年、考研有专项计划" }
+        }
+      ]
+    },
+    {
+      "id": "S1D2",
+      "stage": 1,
+      "age": 18,
+      "title": "学什么技能",
+      "scene": "军训结束前的社团招新夜市，编程社、吉他社、考证中介的摊位挤在一起。有人塞给你一张传单：「AI 速成，包荐就业」。",
+      "source": ["23.8", "23.10"],
+      "options": [
+        {
+          "text": "追风口技能",
+          "detail": "广告上说 AI 提示词工程师缺口百万，学费 15000，学完推荐面试",
+          "cost": { "money": -15000, "time": 1 },
+          "gain": { "money": 20000 },
+          "flags": [],
+          "choice": "neutral",
+          "evidence": "C",
+          "ref": { "chapter": 23, "no": 12, "title": "别把「网上说工资高」当成缺人，去查当地的紧缺职业目录和补贴目录" }
+        },
+        {
+          "text": "国家资格目录里的硬证",
+          "detail": "花三千块考个清单上有的证，报名前先查发证机构是不是人社部门备案的",
+          "cost": { "money": -3000, "time": 1, "energy": 20 },
+          "gain": { "money": 24000, "freedom": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 23, "no": 8, "title": "花钱考证之前，先查这张证在不在国家职业资格目录或人社部备案的评价机构名单里" }
+        },
+        {
+          "text": "躺平不学",
+          "detail": "室友说了，人生苦短，及时行乐",
+          "cost": {},
+          "gain": { "freedom": 5 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "B",
+          "ref": { "chapter": 23, "no": 10, "title": "挑技能优先看「要不要动手、要不要现场判断」" }
+        }
+      ]
+    },
+    {
+      "id": "S1D3",
+      "stage": 1,
+      "age": 18,
+      "title": "十月三十一日前",
+      "scene": "班级群突然热闹起来：武装部在催兵役登记，截止 10 月 31 日。有人截图问：「这个不填真的会被罚吗？」",
+      "source": ["31.2"],
+      "options": [
+        {
+          "text": "记得做兵役登记",
+          "detail": "上网填一次，几分钟。登记了也不等于要去当兵",
+          "cost": { "time": 1 },
+          "gain": { "freedom": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 31, "no": 2, "title": "十八岁那年 10 月 31 日前要做兵役登记；义务兵服现役就是两年" }
+        },
+        {
+          "text": "不记得，随它去",
+          "detail": "群里说好多人没登记也没事。兵役法写的罚则是：责令限期改正，逾期不改正强制履行并罚款",
+          "cost": {},
+          "gain": { "legalRisk": 5 },
+          "flags": ["missedEnlistment"],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 31, "no": 2, "title": "十八岁那年 10 月 31 日前要做兵役登记；义务兵服现役就是两年" }
+        }
+      ]
+    },
+    {
+      "id": "S2D1",
+      "stage": 2,
+      "age": 22,
+      "title": "第一份工作",
+      "scene": "宿舍散伙饭吃完，行李箱还没拆。班群里在传一份《毕业生起薪报告》，底下最高赞的评论是：别信平均数。四个方向摆在面前。",
+      "source": ["19.1", "31.7", "31.11", "19.20"],
+      "options": [
+        {
+          "text": "进大厂",
+          "detail": "月薪 1.2 万，工时按项目走。加班费要自己盯，打卡和派活记录都得存一份",
+          "cost": { "health": -8, "freedom": -10, "lifespan": -1 },
+          "gain": { "money": 180000 },
+          "flags": ["bigTech"],
+          "choice": "neutral",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 1, "title": "加班费按 1.5 倍、2 倍、3 倍三档算，不给就投诉劳动监察，逾期不付还要加付 50% 到 100%" }
+        },
+        {
+          "text": "进小公司，什么都干",
+          "detail": "二十来个人，一个人顶三个岗。好处是学得快，坏处是合同常常「先干着」",
+          "cost": { "health": -4 },
+          "gain": { "money": 90000, "freedom": 6 },
+          "flags": ["smallCo"],
+          "choice": "neutral",
+          "evidence": "B",
+          "ref": { "chapter": 19, "no": 20, "title": "入职满一个月还没签书面劳动合同，从第二个月起可以要双倍工资，最多 11 个月" }
+        },
+        {
+          "text": "考进体制内",
+          "detail": "国考、省考，或者先干两年「三支一扶」再走定向考录——名额只对干过基层项目的人开放",
+          "cost": { "freedom": -12 },
+          "gain": { "money": 120000, "lifespan": 2 },
+          "flags": ["publicSector"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 31, "no": 7, "title": "想进体制内不止考公一条：基层服务项目干满两年，能报每年 10% 的定向考录计划" }
+        },
+        {
+          "text": "灵活就业",
+          "detail": "接单、跑单、做自由职业。社保要自己在就业地缴，每月一千多，没人替你出一半",
+          "cost": { "health": -3 },
+          "gain": { "money": 36000, "freedom": 16 },
+          "flags": ["flexWork"],
+          "choice": "neutral",
+          "evidence": "A",
+          "ref": { "chapter": 31, "no": 11, "title": "不进单位就是灵活就业：养老和医疗要自己在就业地参保，户籍限制已经放开" }
+        }
+      ]
+    },
+    {
+      "id": "S2D2",
+      "stage": 2,
+      "age": 22,
+      "title": "入职第一天",
+      "scene": "HR 把合同推过来：「都是模板，签这儿就行。」你翻到第二页：试用期写着三个月，社保那栏写着「转正后缴纳」。",
+      "source": ["19.3", "19.21", "19.20"],
+      "options": [
+        {
+          "text": "逐条看完，把试用期和社保问清楚",
+          "detail": "合同 1 年，试用期最多 1 个月；社保从上班第一天起算，和试不试用无关",
+          "cost": { "energy": 20 },
+          "gain": { "money": 24000, "freedom": 8 },
+          "flags": ["contractChecked"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 3, "title": "试用期有法定上限、工资不得低于 80%，而且只能约定一次" }
+        },
+        {
+          "text": "都是模板，签了",
+          "detail": "HR 说大家都这么签。多出来的三个月试用期和三个月社保，当场看不出来",
+          "cost": {},
+          "gain": { "freedom": -6 },
+          "flags": ["contractIgnored"],
+          "choice": "pit",
+          "evidence": "A",
+          "hiddenSettlement": [
+            { "money": -40000, "note": "22 岁那份合同的试用期差价与社保断缴损失" }
+          ],
+          "ref": { "chapter": 19, "no": 21, "title": "单位不交或少交社保，先投诉让它补缴；想因此辞职拿经济补偿，辞职通知里要写明是因为单位没依法缴社保" }
+        },
+        {
+          "text": "先不签，干着看",
+          "detail": "满一个月没签书面合同，从第二个月起可以主张双倍工资，最多 11 个月。代价是和公司彻底僵掉",
+          "cost": { "freedom": -8 },
+          "gain": { "money": 18000 },
+          "flags": ["noContract"],
+          "choice": "neutral",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 20, "title": "入职满一个月还没签书面劳动合同，从第二个月起可以要双倍工资，最多 11 个月" }
+        }
+      ]
+    },
+    {
+      "id": "S2D3",
+      "stage": 2,
+      "age": 22,
+      "title": "周末的私活",
+      "scene": "陌生微信加你：「朋友介绍的，看你是写代码的，有个小活儿，两万，三天能做完吗？」需求文档翻到第二页，写着「自动抢购，多账号并发」。",
+      "source": ["11.1", "11.3"],
+      "options": [
+        {
+          "text": "先问用途，能签合同才接",
+          "detail": "动手前先问一句：对方会不会去报案。技术上能不能做，从来不是唯一的问题",
+          "cost": { "health": -4, "freedom": -4 },
+          "gain": { "money": 20000 },
+          "flags": ["sideHustle"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 11, "no": 1, "title": "动手前先问一句：厂商、平台、公司会不会去报案；被追究后马上找刑事律师" }
+        },
+        {
+          "text": "接，两万块呢",
+          "detail": "脚本不改内存、不破解，只是比人快。抢票案里，就是这么定的罪",
+          "cost": { "health": -6, "freedom": -6 },
+          "gain": { "money": 20000, "legalRisk": 45 },
+          "flags": ["sideHustle", "redline"],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 11, "no": 3, "title": "不写、不卖抢票、秒杀、刷单、薅羊毛脚本，哪怕只是「自动化点按钮」" }
+        },
+        {
+          "text": "不接，周末留给自己",
+          "detail": "补觉、学点真正想学的东西。钱可以晚点赚，案底不行",
+          "cost": {},
+          "gain": { "health": 4, "freedom": 6 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 11, "no": 1, "title": "动手前先问一句：厂商、平台、公司会不会去报案；被追究后马上找刑事律师" }
+        }
+      ]
+    },
+    {
+      "id": "S2D4",
+      "stage": 2,
+      "age": 23,
+      "title": "第一笔工资",
+      "scene": "工资到账 8423.6 元。紧接着弹出一串扣款提醒：视频会员、网盘、健身 App、两个云服务，每一个都写着「自动续费」。室友在群里喊：发工资了，今晚整一个？",
+      "source": ["05.1", "05.2"],
+      "options": [
+        {
+          "text": "先把自动续费全关掉，再做个税汇算",
+          "detail": "一年能抠出三四千；专项附加扣除填了，还能退回来一点",
+          "cost": { "energy": 15 },
+          "gain": { "money": 9000, "freedom": 4 },
+          "flags": ["moneyAware"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 1, "title": "关掉所有自动续费，改为到期手动续" }
+        },
+        {
+          "text": "先请客，下个月再说",
+          "detail": "一顿饭花掉三分之一，剩下的靠分期撑到月底",
+          "cost": {},
+          "gain": { "money": -6000, "freedom": 8, "health": -2 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 8, "title": "不给主播打赏、不给游戏充值、不冲动下单" }
+        }
+      ]
+    },
+    {
+      "id": "S3D1",
+      "stage": 3,
+      "age": 25,
+      "title": "租房",
+      "scene": "中介说这套离地铁近，押一付三。合同两页纸，第五行写着「押金退还按公司规定」。你问他公司规定是什么，他说：都是这么签的。",
+      "source": ["15.1", "15.6", "15.4"],
+      "options": [
+        {
+          "text": "押金条款写进合同，核对产权证",
+          "detail": "钱直接转房东、每笔备注用途；中介不得代收代付",
+          "cost": { "energy": 20 },
+          "gain": { "money": -24000, "freedom": 6 },
+          "flags": ["rented"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 15, "no": 1, "title": "租房时押金的数额、退还时间和扣减情形，必须写进合同" }
+        },
+        {
+          "text": "年付打八折，一次付清一年",
+          "detail": "能省两万四。这家中介的资金监管账户，你没查",
+          "cost": {},
+          "gain": { "money": -60000, "freedom": -6 },
+          "flags": ["rented", "prepaidRent"],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 15, "no": 4, "title": "租长租公寓先查它的资金监管账户，别图便宜一次性付一年" }
+        }
+      ]
+    },
+    {
+      "id": "S3D2",
+      "stage": 3,
+      "age": 26,
+      "title": "买房念头",
+      "scene": "售楼处的灯比白天还亮。销售说这个盘只剩最后三套，首付十八万，父母那边已经把钱凑好了。同一天，朋友发来一张图：宽基指数基金十年年化。",
+      "source": ["15.10", "15.14", "05.17"],
+      "options": [
+        {
+          "text": "买，但钱只打进预售资金监管账户",
+          "detail": "先看预售许可证，定金首付一分不往别的账户放",
+          "cost": { "money": -180000, "energy": 20 },
+          "gain": { "freedom": -4 },
+          "flags": ["homeOwner"],
+          "bypassCap": true,
+          "hiddenSettlement": [
+            { "money": 420000, "note": "55 岁把这套房卖了，扣掉贷款本息后净得" }
+          ],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 15, "no": 10, "title": "买期房时先看预售许可证，定金、首付和贷款只打进合同写明的预售资金监管账户" }
+        },
+        {
+          "text": "掏空六个钱包，凑个更大的",
+          "detail": "父母把养老钱也拿出来了。他们说：房子大点，以后好用",
+          "cost": { "money": -260000, "freedom": -12, "health": -3 },
+          "gain": {},
+          "flags": ["homeOwner", "parentsDrained"],
+          "bypassCap": true,
+          "hiddenSettlement": [
+            { "money": 380000, "note": "55 岁卖房净得（大房子，但月供压了二十年）" },
+            { "money": -60000, "note": "父母养老钱被掏空后，你补上的部分" }
+          ],
+          "choice": "pit",
+          "evidence": "B",
+          "ref": { "chapter": 10, "no": 11, "title": "父母出资买房，在转账的时候就把是借是送写清楚" }
+        },
+        {
+          "text": "不买。每年六万，买宽基指数",
+          "detail": "租房住，把钱放进长期底仓，不押在一套房上",
+          "cost": { "money": -120000 },
+          "gain": { "freedom": 8 },
+          "flags": ["invested"],
+          "bypassCap": true,
+          "hiddenSettlement": [
+            { "money": 520000, "note": "三十年定投，加上分红再投" }
+          ],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 17, "title": "用宽基指数基金替代主动管理基金作为长期底仓（长期拿着不动的那部分钱）" }
+        }
+      ]
+    },
+    {
+      "id": "S3D3",
+      "stage": 3,
+      "age": 27,
+      "title": "双十一",
+      "scene": "购物车里躺着 27 件东西。直播间在喊最后 300 单，一套 2980 的「调理套餐」被反复推荐，结算页还贴心地勾了一份延保服务。",
+      "source": ["05.12", "05.11", "06.10"],
+      "options": [
+        {
+          "text": "只买集采药和真需要的",
+          "detail": "同成分的集采药只要原价的零头；延保这种服务，从来用不上",
+          "cost": { "energy": 10 },
+          "gain": { "money": 12000, "health": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 5, "no": 12, "title": "优先选通过一致性评价的仿制药和集采中选药" }
+        },
+        {
+          "text": "囤一年保健品和有机食品，延保全套",
+          "detail": "花掉三万五。心理上觉得这一年都在养生",
+          "cost": {},
+          "gain": { "money": -35000, "health": -3 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 6, "no": 10, "title": "不要花大钱买保健品、膏方、滋补品来「调理身体」" }
+        }
+      ]
+    },
+    {
+      "id": "S3D4",
+      "stage": 3,
+      "age": 27,
+      "title": "客服退款电话",
+      "scene": "电话那头报出你的订单号、收货地址，甚至你买的是什么。「商品质量有问题，我们双倍赔付。你按我说的操作，先开一下屏幕共享。」",
+      "source": ["08.3", "08.4"],
+      "options": [
+        {
+          "text": "挂掉，用 App 里的官方客服核实",
+          "detail": "来电不轻信、链接不点击、转账多核实。视频里看见脸也不算核实",
+          "cost": {},
+          "gain": { "freedom": 5 },
+          "flags": ["antiFraud"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 3, "title": "记住反诈硬规则：来电不轻信、信息不透露、链接不点击、转账多核实，七种最常见的骗局都是这个形状" }
+        },
+        {
+          "text": "按他说的开屏幕共享",
+          "detail": "验证码、余额、支付密码，一样一样被看走",
+          "cost": {},
+          "gain": { "money": -80000, "fraudHits": 1, "freedom": -6 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 8, "no": 4, "title": "视频里看见脸、电话里听见声音都不算核实，涉及转账先挂断，用自己通讯录里的旧号码打回去" }
+        }
+      ]
+    },
+    {
+      "id": "S4D1",
+      "stage": 4,
+      "age": 28,
+      "title": "追喜欢的人",
+      "scene": "朋友婚礼上认识了一个人。加了微信，第三天对方回一句「最近有点忙」。朋友劝你：多认识几个，别把宝押在一个人身上。",
+      "source": ["10.1", "10.5", "10.2"],
+      "options": [
+        {
+          "text": "多见人，别死磕一个",
+          "detail": "两个人合不合得来，见面之前预测不出来",
+          "cost": { "energy": 20 },
+          "gain": { "freedom": 6, "health": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 10, "no": 1, "title": "认识更多人，而不是死磕一个：两个人合不合得来，见面之前预测不出来" }
+        },
+        {
+          "text": "就认准这一个，报个话术课",
+          "detail": "课上说三句话让她/他秒回。对方明确拒绝之后，你还发了两周消息",
+          "cost": {},
+          "gain": { "freedom": -8, "money": -12000 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 10, "no": 2, "title": "对方明确拒绝之后就停下，继续纠缠是治安违法，不是「诚意」" }
+        }
+      ]
+    },
+    {
+      "id": "S4D2",
+      "stage": 4,
+      "age": 28,
+      "title": "谈婚论嫁",
+      "scene": "双方父母见面那天，桌上聊的是彩礼和房子。散场后在车里，对方忽然问：以后我们的钱，怎么算？",
+      "source": ["10.9", "10.10"],
+      "options": [
+        {
+          "text": "把分工和钱账谈清，再领证",
+          "detail": "时间账按无酬劳动算，大额支出互相知情。谈的时候有点尴尬，谈完都松了口气",
+          "cost": { "energy": 25 },
+          "gain": { "freedom": 6 },
+          "flags": ["married", "moneyTalked"],
+          "choice": "good",
+          "evidence": "B",
+          "ref": { "chapter": 10, "no": 9, "title": "时间账按「无酬劳动」算，谈清分工再领证" }
+        },
+        {
+          "text": "感情好就行，谈钱多伤感情",
+          "detail": "这句话说出口的时候很轻松。有些账，会一直记着，等到某天一次算清",
+          "cost": {},
+          "gain": { "freedom": 2 },
+          "flags": ["married", "marriedNoMoneyTalk"],
+          "choice": "pit",
+          "evidence": "B",
+          "ref": { "chapter": 10, "no": 10, "title": "结婚的钱账先看法律默认规则，再决定要不要书面约定" }
+        }
+      ]
+    },
+    {
+      "id": "S4D3",
+      "stage": 4,
+      "age": 29,
+      "title": "要不要孩子",
+      "scene": "双方父母轮流打电话。育儿补贴每年 3600，个税每月能扣 2000，产假 98 天——这些都算得清，算不清的是往后二十年。",
+      "source": ["18.1", "18.5"],
+      "options": [
+        {
+          "text": "生",
+          "detail": "能领的先领：育儿补贴、生育津贴、个税附加扣除",
+          "cost": { "money": -90000, "freedom": -14, "health": -4 },
+          "gain": { "money": 10800 },
+          "flags": ["hasChild"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 18, "no": 1, "title": "先把能领的算进来：国家育儿补贴每孩每年 3600 元，发到 3 岁；个税专项附加扣除每孩每月 2000 元" }
+        },
+        {
+          "text": "不生",
+          "detail": "把三段钱账算完，把时间和自由留给自己",
+          "cost": {},
+          "gain": { "freedom": 12, "money": 40000 },
+          "flags": [],
+          "choice": "neutral",
+          "evidence": "B",
+          "ref": { "chapter": 18, "no": 5, "title": "钱账分三段算：0 到 3 岁、义务教育、义务教育之后" }
+        }
+      ]
+    },
+    {
+      "id": "S4D4",
+      "stage": 4,
+      "age": 30,
+      "title": "孩子第一年",
+      "scene": "出院时护士塞来一张单子：足跟血筛查、听力筛查、出生医学证明、居民医保。老人在旁边说：这些都不用急，我们那时候什么都没做。",
+      "source": ["27.13", "27.14", "27.12"],
+      "requireFlags": ["hasChild"],
+      "options": [
+        {
+          "text": "该办的一样不落",
+          "detail": "筛查当天做，出生证明出院前办好，医保不落户就能办",
+          "cost": { "energy": 20, "money": -8000 },
+          "gain": { "health": 4, "freedom": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 27, "no": 13, "title": "新生儿足跟血筛查和听力筛查都别拒绝" }
+        },
+        {
+          "text": "听老人的，能省就省",
+          "detail": "有些筛查错过窗口期就补不回来",
+          "cost": {},
+          "gain": { "health": -8, "money": -30000 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 27, "no": 14, "title": "拿到出生医学证明就给孩子办居民医保，别等落完户" }
+        }
+      ]
+    },
+    {
+      "id": "S5D1",
+      "stage": 5,
+      "age": 32,
+      "title": "创业冲动",
+      "scene": "前同事拉你出来单干，说这个方向一年能做两千万。合伙协议摊在桌上，最后一页写着：以个人名义为公司贷款提供担保。",
+      "source": ["12.1", "12.3", "12.2"],
+      "options": [
+        {
+          "text": "只拿亏得起的钱，注册有限公司",
+          "detail": "不动家底、不借钱开张；个体户和合伙是赔到底，有限公司才「有限」",
+          "cost": { "money": -80000, "health": -6, "freedom": -4 },
+          "gain": {},
+          "flags": ["founder"],
+          "bypassCap": true,
+          "hiddenSettlement": [
+            { "money": 1300000, "note": "公司没上市也没暴富，但活到了第四十九年，被同行并购，你那份股权扣完税换成钱" }
+          ],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 12, "no": 3, "title": "开张前选对主体：个体户和合伙人赔到底，有限公司才「有限」" }
+        },
+        {
+          "text": "借钱开张，担保也签了",
+          "detail": "那行字的意思你其实看懂了。公司是公司的，债是你的",
+          "cost": { "money": -150000, "freedom": -10 },
+          "gain": { "legalRisk": 20 },
+          "flags": ["founder"],
+          "bypassCap": true,
+          "hiddenSettlement": [
+            { "money": -300000, "note": "公司欠款，个人担保连带清偿" }
+          ],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 12, "no": 2, "title": "不给公司贷款签个人担保，配偶更不要跟着签" }
+        }
+      ]
+    },
+    {
+      "id": "S5D2",
+      "stage": 5,
+      "age": 33,
+      "title": "证还没下来",
+      "scene": "店租下来了，装修到一半。消防和经营许可还在审。合伙人说：先开着，边营业边等证，这条街谁不是这样。",
+      "source": ["12.7", "12.8"],
+      "requireFlags": ["founder"],
+      "options": [
+        {
+          "text": "证没下来，一天都不开",
+          "detail": "房租照付、员工照发，但门锁着",
+          "cost": { "money": -20000, "freedom": -2 },
+          "gain": { "health": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 12, "no": 7, "title": "要许可证的行当，证没下来不开张" }
+        },
+        {
+          "text": "先开张，边干边等",
+          "detail": "生意确实不错。三个月后，来检查的人比客人多",
+          "cost": {},
+          "gain": { "money": 80000, "legalRisk": 35 },
+          "flags": [],
+          "hiddenSettlement": [
+            { "money": -150000, "note": "无证经营被查，罚款加停业损失" }
+          ],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 12, "no": 8, "title": "做食品先看自己落在哪一档：生产和做餐饮要许可，只卖预包装的改备案，卖生鲜肉菜不用证" }
+        }
+      ]
+    },
+    {
+      "id": "S5D3",
+      "stage": 5,
+      "age": 34,
+      "title": "被裁员",
+      "scene": "周一下午三点，HR 把你叫进小会议室。桌上放着一份《离职申请书》，理由那一栏已经打印好了：个人原因。",
+      "source": ["07.1", "19.7", "19.4", "19.8"],
+      "options": [
+        {
+          "text": "不签，领失业金，先把证据存好",
+          "detail": "工资条、考勤、合同、社保记录、聊天记录，全部备份",
+          "cost": { "energy": 25 },
+          "gain": { "money": 60000, "freedom": 4 },
+          "flags": ["laidOff"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 8, "title": "离职前把工资条、考勤、劳动合同、社保记录和聊天记录先存下来" }
+        },
+        {
+          "text": "签了，图个干净",
+          "detail": "那一签就没有 N 了。你当时只想着快点结束",
+          "cost": {},
+          "gain": { "freedom": -8, "money": -5000 },
+          "flags": ["laidOff"],
+          "hiddenSettlement": [
+            { "money": -120000, "note": "放弃的 N+1 与失业保险金" }
+          ],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 7, "title": "不要签「个人原因主动辞职」，那一签就没有 N 了" }
+        },
+        {
+          "text": "拿 N+1 谈，直接跳",
+          "detail": "谈得快，累得也快。下一份工作涨了，代价是身体",
+          "cost": { "health": -6, "freedom": -4 },
+          "gain": { "money": 80000 },
+          "flags": ["laidOff"],
+          "choice": "neutral",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 4, "title": "被裁先算清 N：每满一年一个月工资，不满六个月按半个月" }
+        }
+      ]
+    },
+    {
+      "id": "S5D4",
+      "stage": 5,
+      "age": 36,
+      "title": "复查通知",
+      "scene": "体检报告上有个词你没看懂，医生让你下周复查。同一周，家里的气氛忽然不对了——那些一直没摊开说的事，开始一件一件浮上来。",
+      "source": ["29.3", "29.2"],
+      "bombIfFlag": {
+        "flag": "marriedNoMoneyTalk",
+        "cost": { "money": -300000, "freedom": -20 },
+        "note": "离婚分割：二十多岁那年没谈的钱账，今天一次结清"
+      },
+      "options": [
+        {
+          "text": "固定作息，主动求助",
+          "detail": "先把睡觉、吃饭、复查固定下来，再谈别的",
+          "cost": { "energy": 30, "money": -20000 },
+          "gain": { "health": 10, "freedom": 6 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 29, "no": 3, "title": "失业之后先把作息、医保和找工作的节奏固定下来，别整天待在家里" }
+        },
+        {
+          "text": "一个人硬扛",
+          "detail": "白天上班，晚上失眠。半年后，你连楼梯都开始怕",
+          "cost": {},
+          "gain": { "health": -18, "freedom": -8 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "B",
+          "ref": { "chapter": 29, "no": 2, "title": "被告知重病诊断的那一周，别一个人去拿报告，治疗以外的决定往后放" }
+        }
+      ]
+    },
+    {
+      "id": "S6D1",
+      "stage": 6,
+      "age": 40,
+      "title": "年度体检",
+      "scene": "体检中心的套餐表从 800 排到 12000。销售说：全套做一遍，图个安心。你今年四十，父亲有高血压。",
+      "source": ["06.18", "01.8", "06.7"],
+      "options": [
+        {
+          "text": "按年龄性别，做有证据的那几项",
+          "detail": "血压血糖血脂、该做的癌症筛查；通用套餐防不了病，全身 CT 也不防",
+          "cost": { "money": -8000, "energy": 15 },
+          "gain": { "health": 10 },
+          "flags": ["healthScreened"],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 6, "no": 18, "title": "不要靠通用体检套餐防病，按年龄性别做那几项有证据的筛查" }
+        },
+        {
+          "text": "上全身 PET-CT 加肿瘤标志物",
+          "detail": "花一万二。假阳性会让你在接下来半年里反复进医院",
+          "cost": {},
+          "gain": { "money": -40000, "health": -2 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 6, "no": 7, "title": "不要给没有症状的自己做「全身 PET-CT」或「肿瘤标志物套餐」" }
+        }
+      ]
+    },
+    {
+      "id": "S6D2",
+      "stage": 6,
+      "age": 41,
+      "title": "柜子里的瓶瓶罐罐",
+      "scene": "柜子摆了一排：复合维生素、鱼油、氨糖、益生菌，还有一盒朋友送的膏方。每样都说是日常保养。",
+      "source": ["06.1", "06.2", "06.10"],
+      "options": [
+        {
+          "text": "什么都不瞎吃",
+          "detail": "不为了长寿吃复合维生素，也不为防心血管吃鱼油——证据不支持",
+          "cost": {},
+          "gain": { "money": 6000, "health": 6 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 6, "no": 1, "title": "不要为了长寿或防心血管病吃复合维生素" }
+        },
+        {
+          "text": "全套继续吃",
+          "detail": "每年两万五。体检单上该高的还是高",
+          "cost": {},
+          "gain": { "money": -25000, "health": -3 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 6, "no": 10, "title": "不要花大钱买保健品、膏方、滋补品来「调理身体」" }
+        }
+      ]
+    },
+    {
+      "id": "S6D3",
+      "stage": 6,
+      "age": 45,
+      "title": "父亲在卫生间摔了",
+      "scene": "电话里母亲声音发抖：你爸在卫生间摔了，扶起来以后说没事，就是腿有点疼。你现在在三十公里外。",
+      "source": ["13.2", "01.13"],
+      "options": [
+        {
+          "text": "让他别动，先问清哪疼，再叫 120",
+          "detail": "老人摔倒先蹲下喊他、打 120，别急着把人扶起来",
+          "cost": { "money": -12000, "energy": 20 },
+          "gain": { "health": 4, "freedom": 4 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 13, "no": 2, "title": "老人摔倒、有人倒地，先蹲下喊他、打 120，别急着把人扶起来" }
+        },
+        {
+          "text": "让妈先扶起来，坐沙发歇会儿",
+          "detail": "当晚还能走。第二天早上，人起不来了",
+          "cost": {},
+          "gain": { "money": -60000, "health": -3, "freedom": -6 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 1, "no": 13, "title": "60 岁以上练平衡和腿部力量，改造家里的浴室和楼梯" }
+        }
+      ]
+    },
+    {
+      "id": "S6D4",
+      "stage": 6,
+      "age": 47,
+      "title": "凌晨一点半",
+      "scene": "你从工位站起来，胸口像被一只手按住。疼了二十分钟，出了点汗，左胳膊有点沉。楼下就有车，停车场空着。",
+      "source": ["13.7", "19.12"],
+      "options": [
+        {
+          "text": "立刻打 120，说清是压着疼、出冷汗",
+          "detail": "不要自己开车，也不要先赶去打卡",
+          "cost": { "money": -30000 },
+          "gain": { "health": 12, "lifespan": 3 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 13, "no": 7, "title": "胸口压着疼、闷、发紧超过 15 分钟不缓解，或者疼时出冷汗、恶心、喘不上气，打 120，不要自己扛也不要自己开车" }
+        },
+        {
+          "text": "睡一觉，明天再看",
+          "detail": "有些窗口期是按分钟算的",
+          "cost": {},
+          "gain": { "health": -35, "lifespan": -10, "money": -80000 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 19, "no": 12, "title": "别信「撑到工位就算工伤」：突发不适先打 120，不是先赶去打卡" }
+        }
+      ]
+    },
+    {
+      "id": "S7D1",
+      "stage": 7,
+      "age": 55,
+      "title": "父母的黄昏",
+      "scene": "父亲出院了，母亲一个人照顾不动。护工一个月七千，养老院押金要十二个月床位费。兄妹在群里沉默了很久，谁都没先说话。",
+      "source": ["17.7", "17.11", "17.12"],
+      "options": [
+        {
+          "text": "提前规划：查长护险，签书面协议",
+          "detail": "失能就去申请长期护理保险；送养老院先查民政备案，押金打进银行专用账户",
+          "cost": { "money": -120000, "energy": 25 },
+          "gain": { "freedom": 6, "health": 2 },
+          "flags": [],
+          "choice": "good",
+          "evidence": "A",
+          "ref": { "chapter": 17, "no": 7, "title": "家里老人长期卧床或重度失能，去参保地医保部门申请长期护理保险；它不是只发给老人" }
+        },
+        {
+          "text": "先接回家，走一步看一步",
+          "detail": "没有护工、没有轮班，只有你和母亲的睡眠在结账",
+          "cost": {},
+          "gain": { "money": -200000, "freedom": -12, "health": -4 },
+          "flags": [],
+          "choice": "pit",
+          "evidence": "A",
+          "ref": { "chapter": 17, "no": 12, "title": "独生子女的父母住院，查本省条例有没有给子女的护理假，有就带着住院证明向单位书面申请" }
+        }
+      ]
+    }
+  ]
+}

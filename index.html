@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN" class="booting">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="及时雨 · 人生重开：从 17 岁的岔路口重新走一遍人生，每一步都算数，每一个结果都要走完才知道。" />
+  <meta name="theme-color" content="#fbfaf6" />
+  <title>及时雨 · 人生重开</title>
+  <link rel="stylesheet" href="./src/style.css" />
+  <!-- 主包放 head：type=module 天然 defer，不阻塞首帧；解析到这里就开始下载，
+       与下面的内联开场动画并行（动画放完时 app 通常已经就绪）。 -->
+  <script type="module" src="./src/main.js"></script>
+  <noscript><style>#boot { display: none; } html.booting #app { opacity: 1; }</style></noscript>
+  <style>
+    /* 开场动画的样式内联在文档里：不等外部 CSS，第一帧就能上屏。
+       深色是为了把「一条发光的路」衬出来，进站后转为晨雨亮色。 */
+    html.booting, html.booting body { overflow: hidden; height: 100%; }
+    #app { opacity: 0; transition: opacity 0.62s ease; }
+    html:not(.booting) #app { opacity: 1; }
+
+    #boot {
+      position: fixed; inset: 0; z-index: 900; overflow: hidden;
+      background: radial-gradient(120% 90% at 50% 114%, #2e2216 0%, #1a1410 44%, #0b0908 100%);
+      opacity: 1; transition: opacity 0.62s ease; cursor: pointer;
+      -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+    }
+    #boot.out { opacity: 0; pointer-events: none; }
+    #boot::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(88% 68% at 50% 56%, transparent 38%, rgba(0, 0, 0, 0.5) 100%);
+    }
+    #boot .boot-tree {
+      position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+      transform-origin: 50% 62%;
+      transition: opacity 1.15s ease, transform 1.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.2s ease;
+    }
+    /* 镜头收束后：树退到后面去，把注意力让给上面那两行字 */
+    #boot.focus .boot-tree { opacity: 0.24; transform: translateY(18px) scale(0.978); filter: blur(0.6px); }
+    #boot text { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+
+    #boot .bt-axis { stroke: rgba(232, 207, 158, 0.1); stroke-width: 1; }
+    #boot .bt-branch {
+      fill: none; stroke: rgba(240, 214, 166, 0.52); stroke-width: 1.7; stroke-linecap: round;
+      transition: stroke-dashoffset 0.44s cubic-bezier(0.25, 0.9, 0.3, 1), stroke 0.5s ease;
+    }
+    #boot .bt-branch.pick { stroke: #ffd79a; stroke-width: 2.2; filter: drop-shadow(0 0 5px rgba(255, 190, 110, 0.55)); }
+    #boot .bt-branch.dim { stroke: rgba(240, 214, 166, 0.15); }
+    #boot .bt-node { fill: #ffe0aa; opacity: 0; transition: opacity 0.35s ease; }
+    #boot .bt-node.in { opacity: 1; }
+    #boot .bt-halo { fill: url(#btHalo); opacity: 0; transition: opacity 1s ease; }
+    #boot .bt-halo.in { opacity: 1; animation: btBreathe 4.2s ease-in-out infinite; }
+    #boot .bt-label {
+      font-size: 13px; fill: rgba(238, 220, 186, 0.72); text-anchor: middle;
+      letter-spacing: 1px; opacity: 0; transition: opacity 0.55s ease, fill 0.4s ease;
+    }
+    #boot .bt-label.in { opacity: 1; }
+    #boot .bt-label.pick { fill: #ffe3b4; }
+    #boot .bt-label.dim { fill: rgba(238, 220, 186, 0.32); }
+    #boot .bt-root-label {
+      font-size: 13px; fill: rgba(255, 240, 214, 0.92); text-anchor: middle;
+      letter-spacing: 1.5px; opacity: 0; transition: opacity 0.6s ease;
+    }
+    #boot .bt-root-label.in { opacity: 1; }
+    #boot .bt-bloom {
+      fill: none; stroke: #ffcf90; stroke-width: 1; opacity: 0;
+      transform-box: fill-box; transform-origin: center;
+    }
+    #boot .bt-bloom.go { animation: btBloom 1.2s cubic-bezier(0.15, 0.75, 0.3, 1) forwards; }
+
+    /* 感悟不是整块淡入，是一行一行浮上来：先是一团散不开的字，落定才看清 */
+    #boot .boot-insight {
+      position: absolute; z-index: 3; left: 0; right: 0; top: 15%; padding: 0 26px;
+      text-align: center;
+    }
+    /* 字落定时带一点暖光，像被树顶那盏灯照亮 */
+    #boot .boot-insight p.in { text-shadow: 0 0 26px rgba(255, 202, 128, 0.16); }
+    #boot .boot-insight p {
+      margin: 0; font-size: 16.5px; letter-spacing: 3px; line-height: 2; color: #f1e4c9;
+      opacity: 0; transform: translateY(15px) scale(0.985); filter: blur(7px);
+      transition: opacity 1s ease, transform 1.1s cubic-bezier(0.18, 0.82, 0.24, 1), filter 1s ease;
+    }
+    #boot .boot-insight p + p { color: #e7c88f; }
+    #boot .boot-insight p.in, #boot .boot-sign.in { opacity: 1; transform: none; filter: blur(0); }
+    #boot .boot-sign {
+      display: block; margin-top: 18px; font-size: 9.5px; letter-spacing: 4px;
+      color: rgba(232, 207, 158, 0.36);
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 1.1s ease, transform 1.1s ease;
+    }
+
+    #boot .boot-skip {
+      position: absolute; z-index: 3; top: 20px; right: 20px; margin: 0;
+      font-size: 10px; letter-spacing: 3px; color: rgba(232, 207, 158, 0.42);
+      animation: btPulse 2.6s ease-in-out infinite;
+    }
+    #boot .boot-slow {
+      position: absolute; z-index: 3; left: 0; right: 0; bottom: 72px; margin: 0;
+      text-align: center; font-size: 11px; letter-spacing: 2px; color: rgba(232, 207, 158, 0.45);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    #boot.stuck .boot-slow { opacity: 1; }
+
+    @keyframes btPulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.16; } }
+    @keyframes btBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+    @keyframes btBloom {
+  0% { transform: scale(0.5); opacity: 0.75; }
+  55% { opacity: 0.28; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+    @media (prefers-reduced-motion: reduce) {
+      #boot *, #boot *::after { transition-duration: 0.01ms !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 开场动画：一个 18 岁的节点，分出四条路，选一次、再选一次，最后落一句感悟。
+       整段在等主包的同时播完；tap 跳过。脚本内联，见 body 末尾。 -->
+  <div id="boot" class="boot" aria-hidden="true">
+    <div class="boot-insight">
+      <p>路不是选出来的</p>
+      <p>是一步一步走出来的</p>
+      <span class="boot-sign">及时雨 · 人生重开</span>
+    </div>
+    <svg class="boot-tree" viewBox="0 0 400 560" preserveAspectRatio="xMidYMax meet"></svg>
+    <p class="boot-skip">轻触跳过</p>
+    <p class="boot-slow">正在铺开你的人生…</p>
+  </div>
+
+  <div id="app">
+    <header id="attr-bar" class="attr-bar" hidden>
+      <div class="attr"><span class="attr-label"><span class="attr-ico" data-ico="lifespan"></span>寿命</span><span id="attr-lifespan" class="attr-value">78 岁</span></div>
+      <div class="attr"><span class="attr-label"><span class="attr-ico" data-ico="money"></span>金钱</span><span id="attr-money" class="attr-value">¥0</span></div>
+      <div class="attr"><span class="attr-label"><span class="attr-ico" data-ico="freedom"></span>自由</span><span id="attr-freedom" class="attr-value">50</span></div>
+      <div class="attr"><span class="attr-label"><span class="attr-ico" data-ico="health"></span>健康</span><span id="attr-health" class="attr-value">80</span></div>
+    </header>
+    <main id="screen"></main>
+    <!-- 署名/免责文案由 src/main.js 从 data/attribution.json 渲染（集中管理防漏，PRD F12） -->
+    <footer id="site-footer" class="site-footer"></footer>
+  </div>
+  <script>
+    (function () {
+      var boot = document.getElementById('boot');
+      if (!boot) return;
+      var NS = 'http://www.w3.org/2000/svg';
+      var svg = boot.querySelector('.boot-tree');
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var timers = [];
+      var appReady = false, animDone = false, closed = false;
+
+      function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+      function clearTimers() { timers.forEach(clearTimeout); timers.length = 0; }
+      function el(tag, attrs, text) {
+        var n = document.createElementNS(NS, tag);
+        for (var k in attrs) n.setAttribute(k, attrs[k]);
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      // 18 岁是所有人的第一道岔路；后面两级是「选了之后又会有新的岔路」。
+      // 每次自动选一条（PICKS），没被选中的那条暗下去 —— 选择这件事，本来就是别的路一起关掉。
+      var ROOT = { x: 200, y: 486, label: '18 岁 · 高考' };
+      // 标签尽量朝中轴一侧放：镜头早期贴得很近，靠边的字才不会只剩半个
+      var LEVELS = [
+        [
+          { x: 94,  y: 396, label: '复读',   d: 'M200 486C198 434 146 406 94 396' },
+          { x: 76,  y: 446, label: '学手艺', d: 'M200 486C168 484 116 470 76 446', lx: 84, ly: 433, anchor: 'start' },
+          { x: 314, y: 446, label: '去工作', d: 'M200 486C240 486 258 470 314 446', lx: 306, ly: 433, anchor: 'end' },
+          { x: 300, y: 392, label: '换方向', d: 'M200 486C208 432 246 404 300 392', lx: 287, ly: 396, anchor: 'end' }
+        ],
+        [
+          { x: 300, y: 300, label: '二战',   d: 'M300 392C300 362 300 332 300 300', lx: 287, ly: 304, anchor: 'end' },
+          { x: 342, y: 342, label: '创业',   d: 'M300 392C322 382 336 364 342 342', lx: 334, ly: 329, anchor: 'end' },
+          { x: 230, y: 340, label: '回小城', d: 'M300 392C276 382 250 362 230 340' }
+        ],
+        [
+          { x: 266, y: 206, label: '上岸',   d: 'M300 300C296 262 284 232 266 206' },
+          { x: 352, y: 228, label: '差一分', d: 'M300 300C324 286 344 258 352 228', lx: 344, ly: 215, anchor: 'end' }
+        ]
+      ];
+      var PICKS = [3, 0, 0];
+
+      var items = [];
+      var rootHalo, rootNode, rootLabel;
+      var insightLines = [];
+
+      // ── 镜头 ──────────────────────────────────────────
+      // 树是往上长的，镜头就跟着往上走：一开始贴着 18 岁那个点放大看，
+      // 每分出一层岔路，视野就抬升一点、拉远一点，最后收成整棵树，再压到上面那两行字。
+      // 用 rAF 插值 viewBox（CSS 动不了同名属性），保持 400:560 的画幅比例。
+      var CAM_START = { w: 264, cy: 468 };
+      var CAM_END = { w: 400, cy: 296 };
+      var cam = { w: CAM_START.w, cy: CAM_START.cy };
+      var camRaf = 0;
+
+      function applyCam() {
+        var h = cam.w * 1.4;
+        var x = 200 - cam.w / 2, y = cam.cy - h / 2;
+        svg.setAttribute('viewBox',
+          x.toFixed(2) + ' ' + y.toFixed(2) + ' ' + cam.w.toFixed(2) + ' ' + h.toFixed(2));
+      }
+
+      function camTo(w, cy, dur) {
+        if (reduce) { cam.w = w; cam.cy = cy; applyCam(); return; }
+        if (camRaf) { cancelAnimationFrame(camRaf); camRaf = 0; }
+        var fw = cam.w, fy = cam.cy, t0 = performance.now();
+        function step(t) {
+          var p = Math.min(1, (t - t0) / dur);
+          var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; // easeInOutCubic
+          cam.w = fw + (w - fw) * e;
+          cam.cy = fy + (cy - fy) * e;
+          applyCam();
+          if (p < 1) camRaf = requestAnimationFrame(step);
+          else camRaf = 0;
+        }
+        camRaf = requestAnimationFrame(step);
+      }
+
+      function build() {
+        var defs = el('defs');
+        defs.innerHTML = '<radialGradient id="btHalo">' +
+          '<stop offset="0" stop-color="#ffd79a" stop-opacity="0.5"/>' +
+          '<stop offset="0.45" stop-color="#ffc27a" stop-opacity="0.12"/>' +
+          '<stop offset="1" stop-color="#ffc27a" stop-opacity="0"/>' +
+          '</radialGradient>';
+        svg.appendChild(defs);
+
+        // 中轴线只从最上面那个节点上方一点点起，再往上会穿到感悟文字里
+        svg.appendChild(el('line', { class: 'bt-axis', x1: ROOT.x, y1: 148, x2: ROOT.x, y2: 548 }));
+
+        var gB = el('g'), gN = el('g'), gT = el('g');
+        svg.appendChild(gB); svg.appendChild(gN); svg.appendChild(gT);
+
+        rootHalo = el('circle', { class: 'bt-halo', cx: ROOT.x, cy: ROOT.y, r: 52 });
+        rootNode = el('circle', { class: 'bt-node', cx: ROOT.x, cy: ROOT.y, r: 4.4 });
+        rootLabel = el('text', { class: 'bt-root-label', x: ROOT.x, y: ROOT.y + 30 }, ROOT.label);
+        gN.appendChild(rootHalo); gN.appendChild(rootNode); gT.appendChild(rootLabel);
+
+        LEVELS.forEach(function (level) {
+          items.push(level.map(function (b) {
+            var path = el('path', { class: 'bt-branch', d: b.d });
+            gB.appendChild(path);
+            var len = path.getTotalLength();
+            path.style.strokeDasharray = len;
+            path.style.strokeDashoffset = len;
+
+            var node = el('circle', { class: 'bt-node', cx: b.x, cy: b.y, r: 3.4 });
+            var label = el('text', {
+              class: 'bt-label',
+              x: b.lx != null ? b.lx : b.x,
+              y: b.ly != null ? b.ly : b.y - 13
+            }, b.label);
+            // 注意：CSS 的 text-anchor 会盖掉同名表现属性，只能写进 style
+            label.style.textAnchor = b.anchor || 'middle';
+            gN.appendChild(node); gT.appendChild(label);
+            return { path: path, node: node, label: label, x: b.x, y: b.y };
+          }));
+        });
+      }
+
+      function drawLevel(i, startAt) {
+        items[i].forEach(function (it, k) {
+          at(startAt + k * 62, function () { it.path.style.strokeDashoffset = 0; });
+          at(startAt + k * 62 + 300, function () {
+            it.node.classList.add('in');
+            it.label.classList.add('in');
+          });
+        });
+      }
+
+      function pick(i, k) {
+        items[i].forEach(function (it, j) {
+          var on = j === k;
+          it.path.classList.toggle('pick', on);
+          it.path.classList.toggle('dim', !on);
+          it.label.classList.toggle('pick', on);
+          it.label.classList.toggle('dim', !on);
+        });
+      }
+
+      function bloom(it) {
+        var ring = el('circle', { class: 'bt-bloom', cx: it.x, cy: it.y, r: 6 });
+        svg.appendChild(ring);
+        requestAnimationFrame(function () { ring.classList.add('go'); });
+      }
+
+      // ── 收场：app 就绪 + 动画放完，两个条件都满足才撤幕 ──
+      function close() {
+        if (closed) return;
+        closed = true;
+        clearTimers();
+        boot.classList.add('out');
+        document.documentElement.classList.remove('booting');
+        setTimeout(function () { if (boot.parentNode) boot.parentNode.removeChild(boot); }, 700);
+      }
+      function finish() {
+        if (closed || animDone) return;
+        animDone = true;
+        clearTimers();
+        if (appReady) close();
+        else boot.classList.add('stuck');
+      }
+      window.__bootReady = function () {
+        appReady = true;
+        if (animDone) close();
+      };
+
+      build();
+      if (reduce) { cam.w = CAM_END.w; cam.cy = CAM_END.cy; }
+      applyCam();
+      insightLines = Array.prototype.slice.call(
+        boot.querySelectorAll('.boot-insight p, .boot-sign'));
+
+      function showLine(i) {
+        if (insightLines[i]) insightLines[i].classList.add('in');
+      }
+
+      if (reduce) {
+        // 不做动画：直接给终态，等在等主包的那点时间过去就撤
+        [rootHalo, rootNode, rootLabel].forEach(function (n) { n.classList.add('in'); });
+        items.forEach(function (level, i) {
+          level.forEach(function (it) { it.node.classList.add('in'); it.label.classList.add('in'); it.path.style.strokeDashoffset = 0; });
+          pick(i, PICKS[i]);
+        });
+        insightLines.forEach(function (n) { n.classList.add('in'); });
+        at(900, finish);
+      } else {
+        // 节点长出来 → 镜头跟上去 → 分岔 → 关掉没选的那几条 → 再长 → 收成整棵 → 字浮上来 → 停一会儿
+        at(60, function () {
+          rootHalo.classList.add('in');
+          rootNode.classList.add('in');
+          rootLabel.classList.add('in');
+        });
+        at(300, function () { drawLevel(0, 0); camTo(300, 442, 820); });
+        at(940, function () { pick(0, PICKS[0]); });
+        at(1000, function () { drawLevel(1, 0); camTo(322, 408, 760); });
+        at(1520, function () { pick(1, PICKS[1]); });
+        at(1580, function () { drawLevel(2, 0); camTo(348, 372, 700); });
+        at(2000, function () { pick(2, PICKS[2]); bloom(items[2][PICKS[2]]); });
+        at(2080, function () { camTo(CAM_END.w, CAM_END.cy, 950); });
+        at(2520, function () { boot.classList.add('focus'); showLine(0); });
+        at(2820, function () { showLine(1); });
+        at(3050, function () { showLine(2); });
+        // 字落定后留 1.6s 给人读 —— 这一段是整个开场唯一「什么都不动」的时间
+        at(4660, finish);
+        at(9000, function () {
+          if (appReady || closed) return;
+          var slow = boot.querySelector('.boot-slow');
+          if (slow) slow.textContent = '加载比预期慢，检查一下网络再刷新';
+        });
+      }
+
+      // 跳过：任意点击 / 按键
+      boot.addEventListener('pointerdown', finish);
+      window.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') finish();
+      });
+    })();
+  </script>
+</body>
+</html>
