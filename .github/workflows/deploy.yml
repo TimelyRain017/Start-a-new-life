@@ -26,6 +26,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # enablement: true —— 首次运行时自动在仓库里创建 Pages 站点（source = GitHub Actions），
+      # 省掉手动去 Settings → Pages 点一次；已有站点时这一步是幂等的。
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
