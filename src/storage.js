@@ -9,6 +9,9 @@ export const KEYS = {
   // 档案（走完的每一局）保留 v1：它是用户的资产，换 key 等于让老记录凭空消失
   archive: 'life-restart-archive-v1',
   sound: 'life-restart-sound-v1',
+  // 新手引导看没看过（'done' 就再不自动弹）—— 只是个标记，删了也不心疼
+  // v2：引导从「介绍卡」改成了聚光灯式（高亮真实元素），内容换了，让看过旧版的人再看一遍
+  guide: 'life-restart-guide-v2',
 };
 
 // v2.1 之前存档 key 叫 life-restart-save-v1，读到就搬过来（一次性迁移，别丢进行中的一局）

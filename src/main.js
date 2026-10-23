@@ -14,6 +14,7 @@ import {
 import { addRecord, removeRecord, loadArchive, achievementState } from './records.js';
 import * as ui from './ui.js';
 import { unlock as unlockSound } from './sound.js';
+import { maybeShowGuide, openGuide } from './guide.js';
 
 const decisions = decisionsData.decisions;
 const stages = decisionsData.stages;
@@ -252,6 +253,11 @@ const meHandlers = (returnTo = boot) => ({
   onBack: () => returnTo(),
   onResume: () => continueGame(),
   onAbandon: () => { clearSave(); ui.renderMe(mainEndings, null, meHandlers(returnTo)); },
+  // 引导要指着主页上的元素讲：不在主页就先回去（已经在主页时不要重渲染，别把选好的视角清掉）
+  onGuide: () => {
+    if (!document.querySelector('.views')) boot();
+    openGuide();
+  },
 });
 
 function boot() {
@@ -259,9 +265,11 @@ function boot() {
   const save = loadState();
   ui.renderStart(startStream, continueGame, save, perspectives,
     (save && save.perspective) || perspectivesData.default,
-    { onMe: () => openMe(boot) });
+    { onMe: () => openMe(boot), onGuide: () => openGuide() });
   // 主页已经画好，可以撤开场幕布了（它在 index.html 的内联脚本里等这个信号）
   if (window.__bootReady) window.__bootReady();
+  // 第一次进站：等幕布撤掉后弹一次玩法引导（看过的直接跳过）
+  maybeShowGuide();
 }
 
 // 开发期快进：一次点完剩余抉择直达结算，用于验证结局/分享卡版式（生产构建被 tree-shaking 剔除）

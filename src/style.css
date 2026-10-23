@@ -645,6 +645,87 @@ a { color: var(--brand); }
 .legal-panel p { font-size: 12.5px; color: var(--text-2); line-height: 1.9; margin: 0 0 8px; }
 .legal-panel a { color: var(--brand); }
 
+/* ── 新手引导（第一次进站弹一次） ─────────── */
+.guide-entry {
+  position: absolute; top: 6px; left: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; padding: 0;
+  background: none; border: 0.5px solid var(--line); border-radius: 999px;
+  color: var(--text-3); cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+}
+.guide-entry .ico { width: 12px; height: 12px; stroke-width: 1.8; }
+.guide-entry:hover { color: var(--brand); border-color: var(--brand); }
+
+/* 遮罩：SVG 挖洞 + 金色描边高亮目标。洞内不绘制，点击会穿透到页面元素 */
+.tour { position: fixed; inset: 0; z-index: 90; pointer-events: none; animation: fade 0.24s ease-out; }
+.tour.out { animation: guideOut 0.2s ease-in forwards; }
+@keyframes guideOut { to { opacity: 0; } }
+/* 遮罩只负责变暗，不接事件（Chrome 不认 evenodd 的洞，靠它挡会连洞内一起挡掉） */
+.tour-dim { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.tour-dim path { fill: rgba(22, 29, 33, 0.62); }
+.tour-ring {
+  position: absolute; pointer-events: none;
+  border: 1.5px solid rgba(240, 205, 140, 0.92); border-radius: 14px;
+  box-shadow: 0 0 24px rgba(240, 205, 140, 0.26), inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  animation: tourRing 0.42s ease-out;
+}
+@keyframes tourRing { from { opacity: 0; } to { opacity: 1; } }
+/* 四条透明矩形围住洞：洞外挡点击，洞内是真的空的 */
+.tour-block { position: absolute; inset: 0; }
+.tour-block i { position: absolute; pointer-events: auto; }
+
+.tour-card {
+  position: absolute; width: min(320px, calc(100vw - 32px));
+  background: var(--panel); border: 0.5px solid var(--line); border-radius: 16px;
+  padding: 14px 16px 13px; pointer-events: auto;
+  box-shadow: 0 16px 44px rgba(20, 26, 29, 0.3);
+  animation: popIn 0.3s cubic-bezier(0.22, 0.9, 0.25, 1);
+}
+.tour-card:focus { outline: none; }
+/* 小尖角：below = 卡片在目标下方（尖角朝上），above 相反 */
+.tour-card::before {
+  content: ''; position: absolute; display: none;
+  width: 11px; height: 11px; background: var(--panel); transform: rotate(45deg);
+}
+.tour-card.below::before,
+.tour-card.above::before { display: block; left: var(--arrow-x, 50%); margin-left: -6px; }
+.tour-card.below::before {
+  top: -6px; border-left: 0.5px solid var(--line); border-top: 0.5px solid var(--line);
+}
+.tour-card.above::before {
+  bottom: -6px; border-right: 0.5px solid var(--line); border-bottom: 0.5px solid var(--line);
+}
+
+.tour-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.tour-count { font-size: 10px; letter-spacing: 1.5px; color: var(--text-3); }
+.tour-skip {
+  background: none; border: none; padding: 2px 0; font: inherit;
+  font-size: 11px; letter-spacing: 1px; color: var(--text-3); cursor: pointer;
+}
+.tour-skip:hover { color: var(--brand); }
+.tour-title { font-size: 15.5px; font-weight: 500; letter-spacing: 0.3px; margin: 0 0 6px; line-height: 1.5; }
+.tour-body { font-size: 12.5px; color: var(--text-2); line-height: 1.85; margin: 0; }
+.tour-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 13px; }
+.tour-dots { display: flex; gap: 5px; }
+.tour-dots i {
+  width: 5px; height: 5px; border-radius: 999px; background: var(--line-strong);
+  transition: width 0.24s, background 0.24s;
+}
+.tour-dots i.on { width: 14px; background: var(--glow); }
+.tour-btns { display: flex; align-items: center; gap: 4px; }
+.tour-btn {
+  font: inherit; font-size: 12.5px; padding: 7px 12px; border-radius: 9px;
+  border: 0.5px solid var(--line); background: none; color: var(--text-2);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.tour-btn.ghost { border-color: transparent; color: var(--text-3); padding-left: 5px; padding-right: 5px; }
+.tour-btn.solid {
+  background: var(--brand); border-color: var(--brand); color: #fff;
+  font-weight: 500; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(91, 125, 144, 0.2);
+}
+.tour-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }

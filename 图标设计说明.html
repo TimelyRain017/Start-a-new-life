@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>图标设计说明 · 及时雨 · 人生重开</title>
+<style>
+  :root {
+    --bg: #fbfaf6; --panel: #fff; --line: #e7e3d9;
+    --ink: #1e2529; --ink2: #5d6a72; --ink3: #9aa4aa;
+    --gold: #c39a4b; --gold-soft: #f7efe0; --brand: #5b7d90;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 56px 28px 80px;
+    background:
+      radial-gradient(120% 48% at 50% -8%, #fff6e4 0%, rgba(255,246,228,0) 62%),
+      linear-gradient(180deg, #eef4f7 0%, #f7f7f2 46%, var(--bg) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  .kicker { font-size: 11px; letter-spacing: 3px; color: var(--ink3); text-transform: uppercase; margin: 0 0 10px; }
+  h1 { font-size: 27px; font-weight: 500; letter-spacing: 0.5px; margin: 0 0 8px; }
+  .lede { color: var(--ink2); font-size: 14px; margin: 0 0 40px; max-width: 620px; }
+
+  .hero { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: start; margin-bottom: 52px; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 26px; } body { padding: 36px 20px 64px; } }
+
+  .stage {
+    background: linear-gradient(160deg, #f4efe4, #eae4d6);
+    border-radius: 22px; padding: 34px; display: grid; place-items: center;
+    border: 0.5px solid var(--line);
+  }
+  .stage img { width: 218px; height: 218px; display: block; border-radius: 50px; box-shadow: 0 18px 40px rgba(30,37,41,.18); }
+
+  .notes { display: flex; flex-direction: column; gap: 20px; }
+  .note { display: grid; grid-template-columns: 26px 1fr; gap: 14px; }
+  .note b { display: block; font-weight: 500; font-size: 15px; margin-bottom: 3px; }
+  .note p { margin: 0; color: var(--ink2); font-size: 13.5px; line-height: 1.8; }
+  .num {
+    width: 26px; height: 26px; border-radius: 9px; display: grid; place-items: center;
+    background: var(--gold-soft); color: var(--gold);
+    font-size: 12px; font-weight: 600; border: 0.5px solid rgba(195,154,75,.3);
+  }
+
+  h2 { font-size: 13px; letter-spacing: 2.5px; color: var(--ink3); font-weight: 500; margin: 0 0 18px; }
+  section { margin-bottom: 50px; }
+
+  .sizes { display: flex; align-items: flex-end; gap: 26px; flex-wrap: wrap; background: var(--panel);
+    border: 0.5px solid var(--line); border-radius: 18px; padding: 26px 30px; }
+  .sz { text-align: center; }
+  .sz img { display: block; margin: 0 auto 8px; }
+  .sz span { font-size: 11px; color: var(--ink3); letter-spacing: 1px; }
+
+  .scenes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: start; }
+  .scene { background: var(--panel); border: 0.5px solid var(--line); border-radius: 18px; padding: 18px; }
+  .scene > .cap { font-size: 11.5px; color: var(--ink3); letter-spacing: 1px; margin-bottom: 14px; }
+
+  /* Chrome 标签页 */
+  .chrome { background: #dee1e6; border-radius: 10px 10px 0 0; padding: 8px 8px 0; display: flex; gap: 4px; }
+  .tab { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 8px 8px 0 0;
+    padding: 7px 12px; font-size: 11.5px; color: #3c4043; max-width: 190px; }
+  .tab img { width: 15px; height: 15px; border-radius: 3px; flex: 0 0 auto; }
+  .tab i { margin-left: auto; color: #9aa0a6; font-style: normal; font-size: 13px; }
+  .tabidle { display: flex; align-items: center; gap: 7px; padding: 7px 10px; font-size: 11.5px; color: #5f6368; }
+  .tabidle img { width: 13px; height: 13px; border-radius: 3px; }
+  .chrome-bar { background: #fff; border-radius: 0 0 10px 10px; height: 26px; }
+
+  /* 书签栏 */
+  .bm { background: #fff; border-radius: 10px; padding: 9px 12px; display: flex; align-items: center; gap: 16px;
+    font-size: 11.5px; color: #3c4043; border: 0.5px solid #e2e5e9; }
+  .bm span { display: flex; align-items: center; gap: 6px; }
+  .bm img { width: 14px; height: 14px; border-radius: 3px; }
+
+  /* iOS 主屏 */
+  .spring { background: linear-gradient(165deg, #cfd9e2, #e7e2d6); border-radius: 14px; padding: 16px 14px; }
+  .appgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 10px; }
+  .app { text-align: center; }
+  .app img { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.14); }
+  .app .ph { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,.55);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); margin: 0 auto; }
+  .bm .ph { width: 14px; height: 14px; border-radius: 3px; background: #c9cdd2; }
+  .app b { display: block; font-size: 8.5px; font-weight: 400; color: #2c3136; margin-top: 4px; letter-spacing: 0; }
+
+  .android { display: grid; place-items: center; background: linear-gradient(165deg,#dfe6ea,#efe9dc); border-radius: 14px; padding: 18px; }
+  .android .circ { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+  .android .circ img { width: 96px; height: 96px; display: block; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 0.5px solid var(--line);
+    border-radius: 14px; overflow: hidden; font-size: 13px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 0.5px solid var(--line); }
+  th { font-size: 11px; letter-spacing: 1.5px; color: var(--ink3); font-weight: 500; background: #fdfcf8; }
+  tr:last-child td { border-bottom: none; }
+  td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--brand);
+    background: #f2f6f8; padding: 1.5px 5px; border-radius: 4px; }
+  td:last-child { color: var(--ink2); }
+
+  .swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+  .sw { flex: 1 1 130px; border-radius: 12px; overflow: hidden; border: 0.5px solid var(--line); background: var(--panel); }
+  .sw i { display: block; height: 56px; box-shadow: inset 0 0 0 1px rgba(30,37,41,.07); }
+  .sw div { padding: 9px 11px; }
+  .sw b { display: block; font-size: 12px; font-weight: 500; }
+  .sw span { font-family: ui-monospace, monospace; font-size: 10.5px; color: var(--ink3); }
+
+  .foot { margin-top: 44px; font-size: 11.5px; color: var(--ink3); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="drop" x1="0.18" y1="0" x2="0.52" y2="1">
+    <stop offset="0" stop-color="#fdf3e0"/><stop offset=".48" stop-color="#dcb877"/><stop offset="1" stop-color="#bb9040"/>
+  </linearGradient>
+  <symbol id="mark" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14.5" fill="#1e2529"/>
+    <path d="M32 6.6c0 0 14.2 19 14.2 29a14.2 14.2 0 0 1-28.4 0c0-10 14.2-29 14.2-29Z" fill="url(#drop)"/>
+    <path d="M32 44.6V34.2M32 34.2 24.7 27M32 34.2 39.3 27" fill="none" stroke="#1e2529"
+      stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</defs></svg>
+
+<div class="wrap">
+  <p class="kicker">Favicon / App Icon</p>
+  <h1>一滴雨里，一条岔路</h1>
+  <p class="lede">「及时雨」是雨，「人生重开」是岔路。把两件事压进一个 16×16 还认得出的形状里：一滴晨光色的雨，落下来时分成两条枝。</p>
+
+  <div class="hero">
+    <div class="stage"><img src="./public/icon-512.png" alt="图标 512px" /></div>
+    <div class="notes">
+      <div class="note"><div class="num">01</div><div>
+        <b>雨滴 = 及时雨</b>
+        <p>IP 是「及时雨」，符号就得是雨。滴形用了 14.2 的圆角半径撑出饱满的底，尖端收得比标准水滴更瘦，避免读成血滴或地图定位针。</p>
+      </div></div>
+      <div class="note"><div class="num">02</div><div>
+        <b>Y 形 = 人生的岔路</b>
+        <p>主干从滴底向上，在三分之一处分开两支——正是游戏里「18 岁那个岔路口」的样子。三笔都是圆头，读起来是树，不是剪刀。</p>
+      </div></div>
+      <div class="note"><div class="num">03</div><div>
+        <b>墨 + 晨光金 = 站点自己的色</b>
+        <p>底色取自正文色 <code>#1e2529</code>，雨滴是 <code>#fdf3e0 → #bb9040</code> 的三段渐变，和 h1 晨光、拼图渐变同一套。深底让它在浅色标签栏里先被看见，金滴在深色标签栏里也亮得住。</p>
+      </div></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>各尺寸实际效果</h2>
+    <div class="sizes">
+      <div class="sz"><img src="./public/icon-512.png" width="96" height="96" /><span>512</span></div>
+      <div class="sz"><img src="./public/icon-192.png" width="64" height="64" /><span>192</span></div>
+      <div class="sz"><img src="./public/icon-180.png" width="48" height="48" /><span>180</span></div>
+      <div class="sz"><img src="./public/icon-32.png" width="32" height="32" /><span>32</span></div>
+      <div class="sz"><img src="./public/icon-32.png" width="16" height="16" style="image-rendering:auto" /><span>16</span></div>
+      <div class="sz" style="margin-left:auto;max-width:330px;text-align:left;color:#5d6a72;font-size:12.5px">
+        16px 是浏览器标签页的真实尺寸。这里刻意只保留「滴形 + 一级分叉」——试过两级树枝，16px 下会糊成一团墨点。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>放进真实场景</h2>
+    <div class="scenes">
+      <div class="scene">
+        <div class="cap">浏览器标签页</div>
+        <div class="chrome">
+          <div class="tab"><img src="./public/icon-32.png" alt="" />及时雨 · 人生重开<i>×</i></div>
+          <div class="tabidle"><img src="./public/icon-32.png" alt="" />新标签页</div>
+        </div>
+        <div class="chrome-bar"></div>
+      </div>
+
+      <div class="scene">
+        <div class="cap">书签栏</div>
+        <div class="bm">
+          <span><img src="./public/icon-32.png" alt="" />人生重开</span>
+          <span><i class="ph" style="width:14px;height:14px;border-radius:3px"></i>GitHub</span>
+          <span><i class="ph" style="width:14px;height:14px;border-radius:3px"></i>笔记</span>
+        </div>
+        <div style="height:26px"></div>
+      </div>
+
+      <div class="scene">
+        <div class="cap">iOS 主屏（系统自动裁圆角）</div>
+        <div class="spring">
+          <div class="appgrid">
+            <div class="app"><img src="./public/apple-touch-icon.png" alt="" /><b>人生重开</b></div>
+            <div class="app"><div class="ph"></div><b>&nbsp;</b></div>
+            <div class="app"><div class="ph"></div><b>&nbsp;</b></div>
+            <div class="app"><div class="ph"></div><b>&nbsp;</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scene">
+        <div class="cap">Android 自适应图标（圆形蒙版）</div>
+        <div class="android">
+          <div class="circ"><img src="./public/icon-maskable-512.png" alt="" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>配色</h2>
+    <div class="swatches">
+      <div class="sw"><i style="background:#1e2529"></i><div><b>墨底</b><span>#1e2529</span></div></div>
+      <div class="sw"><i style="background:#fdf3e0"></i><div><b>雨滴高光</b><span>#fdf3e0</span></div></div>
+      <div class="sw"><i style="background:#dcb877"></i><div><b>晨光金</b><span>#dcb877</span></div></div>
+      <div class="sw"><i style="background:#bb9040"></i><div><b>雨滴暗部</b><span>#bb9040</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>产出的文件</h2>
+    <table>
+      <thead><tr><th>文件</th><th>尺寸</th><th>谁在用</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon.svg</code></td><td>矢量</td><td>现代浏览器首选，任意缩放都锐利</td></tr>
+        <tr><td><code>favicon.ico</code></td><td>16 / 32 / 48</td><td>老浏览器与 Windows 任务栏兜底</td></tr>
+        <tr><td><code>apple-touch-icon.png</code></td><td>180</td><td>iOS「添加到主屏幕」；满出血不透明，让系统自己裁圆角</td></tr>
+        <tr><td><code>icon-192.png</code> / <code>icon-512.png</code></td><td>192 / 512</td><td>PWA 安装、Android 桌面</td></tr>
+        <tr><td><code>icon-maskable-512.png</code></td><td>512</td><td>Android 圆形/方形蒙版，内容收在中间 80% 安全区</td></tr>
+        <tr><td><code>safari-pinned-tab.svg</code></td><td>矢量单色</td><td>Safari 固定标签页，靠系统上色</td></tr>
+        <tr><td><code>manifest.webmanifest</code></td><td>—</td><td>让「添加到主屏幕」成为独立 App（无地址栏）</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <p class="foot">改色重出全套：<code style="font-family:ui-monospace,monospace">node tools/make-icons.mjs</code> —— 只需改脚本顶部 PALETTE 四个值。</p>
+</div>
+</body>
+</html>

@@ -26,3 +26,9 @@ desktop.ini
 
 # 投稿清单含个人信息，只在本机用
 投稿表单草稿与行动清单.md
+
+# 图标设计工作区（临时对照稿、截图）
+.icon/
+
+# Lighthouse 跑分产物（体积大，可随时重跑）
+tools/lighthouse/

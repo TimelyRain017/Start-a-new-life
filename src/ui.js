@@ -120,6 +120,7 @@ export function renderStart(onStream, onContinue, save, perspectives = [], defau
   setScreen(`
     <section class="card hero">
       ${soundToggle('hero-sound')}
+      <button class="guide-entry" id="btn-guide" aria-label="玩法说明">${icon('bookOpen')}</button>
       <button class="me-entry" id="btn-me" aria-label="我的">
         ${icon('user')}<span>我的</span>${st.achievements ? `<i class="me-dot">${st.achievements}</i>` : ''}
       </button>
@@ -187,6 +188,8 @@ export function renderStart(onStream, onContinue, save, perspectives = [], defau
     const el = screen().querySelector(sel);
     if (el && handlers.onMe) el.addEventListener('click', handlers.onMe);
   });
+  const guideBtn = screen().querySelector('#btn-guide');
+  if (guideBtn && handlers.onGuide) guideBtn.addEventListener('click', handlers.onGuide);
 }
 
 // 存档摘要：走到哪一年、走了几步、什么活法；已结算的一局要和小时候区分开
@@ -287,6 +290,7 @@ export function renderMe(mainEndings, save, handlers = {}, flash = '') {
       </ul>` : '<p class="empty">还没有走完任何一局。走完第一局，这里会开始记下你的人生。</p>'}
 
       ${archive.length ? '<button class="btn btn-ghost btn-block me-clear" id="btn-me-clear">清空我的记录与成就</button>' : ''}
+      <button class="btn btn-ghost btn-block me-guide" id="btn-me-guide">再看一遍玩法说明</button>
     </section>`);
 
   wirePuzzle(mainEndings, counts);
@@ -311,6 +315,9 @@ export function renderMe(mainEndings, save, handlers = {}, flash = '') {
       renderMe(mainEndings, save, handlers);
     });
   }
+
+  const guideBtn = screen().querySelector('#btn-me-guide');
+  if (guideBtn && handlers.onGuide) guideBtn.addEventListener('click', handlers.onGuide);
 }
 
 // 8 个结局拼成一张图：解锁的那块用统一的晨光渐变填充，
