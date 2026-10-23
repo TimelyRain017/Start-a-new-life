@@ -54,12 +54,44 @@ export function archivePayload() {
 
 const stamp = r => (r && r.id) || `${r && r.at}-${r && r.ending}-${r && r.score}`;
 
+// 导入的备份是外部文件：字段一律按白名单收（只留认识的键，数字强转、字符串截断）。
+// 这是第一道闸——渲染时 ui.js 还会再转义一次，双保险。
+const num = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v) : d);
+const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
+const ATTR_WHITELIST = ['lifespan', 'money', 'freedom', 'health', 'legalRisk', 'fraudHits'];
+
+function sanitizeRecord(raw) {
+  if (!raw || typeof raw !== 'object' || typeof raw.ending !== 'string' || !raw.ending) return null;
+  const attrs = {};
+  if (raw.attrs && typeof raw.attrs === 'object') {
+    ATTR_WHITELIST.forEach(k => { if (Number.isFinite(Number(raw.attrs[k]))) attrs[k] = Number(raw.attrs[k]); });
+  }
+  return {
+    id: str(raw.id, 64),
+    at: num(raw.at),
+    stream: str(raw.stream, 24),
+    streamName: str(raw.streamName, 24),
+    perspective: str(raw.perspective, 24),
+    perspectiveName: str(raw.perspectiveName, 24),
+    ending: str(raw.ending, 40),
+    endingName: str(raw.endingName, 40),
+    score: Math.max(0, Math.min(100, num(raw.score))),
+    grade: str(raw.grade, 2),
+    attrs,
+    badges: Array.isArray(raw.badges)
+      ? raw.badges.filter(b => typeof b === 'string').slice(0, 8).map(b => b.slice(0, 40))
+      : [],
+    decisions: Math.max(0, Math.min(200, num(raw.decisions))),
+    rewinds: Math.max(0, Math.min(200, num(raw.rewinds))),
+  };
+}
+
 export function mergeArchive(text) {
   let data;
   try { data = JSON.parse(text); } catch { return { ok: false, error: '这不是一个备份文件（读不出 JSON）' }; }
   const incoming = Array.isArray(data) ? data : (data && Array.isArray(data.records) ? data.records : null);
   if (!incoming) return { ok: false, error: '备份文件里没有找到记录' };
-  const clean = incoming.filter(r => r && typeof r === 'object' && r.ending);
+  const clean = incoming.map(sanitizeRecord).filter(Boolean);
   if (!clean.length) return { ok: false, error: '备份文件里的记录是空的' };
 
   const list = loadArchive();
@@ -157,26 +189,49 @@ function contextOf(list) {
 }
 
 export function achievementState(list) {
-  // 按时间正序逐局推进：第一次满足条件的那一局，就是解锁时间（累计型成就也能正确归时）
+  // 按时间正序逐局推进：第一次满足条件的那一局，就是解锁时间（累计型成就也能正确归时）。
+  // 用一份持续累积的 context 递推，而不是每局都复制档案、重建一遍 Set——
+  // 档案满 200 条时，老写法要重建两万次 Set，这里每局只做常数次插入。
   const asc = [...list].sort((a, b) => (a.at || 0) - (b.at || 0));
-  const items = ACHIEVEMENTS.map(a => {
-    for (let i = 0; i < asc.length; i++) {
+  const pending = ACHIEVEMENTS.map(a => ({ a, unlocked: false, at: 0 }));
+  let left = pending.length;
+  const ctx = {
+    list: [], runs: 0, best: 0,
+    endings: new Set(), badges: new Set(), streams: new Set(),
+    perspectives: new Set(), grades: new Set(),
+  };
+
+  for (const r of asc) {
+    ctx.list.push(r);
+    ctx.runs = ctx.list.length;
+    if (r.ending) ctx.endings.add(r.ending);
+    if (r.stream) ctx.streams.add(r.stream);
+    if (r.perspective) ctx.perspectives.add(r.perspective);
+    if (r.grade) ctx.grades.add(r.grade);
+    if (Array.isArray(r.badges)) r.badges.forEach(b => ctx.badges.add(b));
+    if ((r.score || 0) > ctx.best) ctx.best = r.score || 0;
+
+    for (const p of pending) {
+      if (p.unlocked) continue;
       let ok = false;
-      try { ok = a.test(contextOf(asc.slice(0, i + 1))); } catch { ok = false; }
-      if (ok) return { ...a, unlocked: true, at: asc[i].at || 0 };
+      try { ok = p.a.test(ctx); } catch { ok = false; }
+      if (ok) { p.unlocked = true; p.at = r.at || 0; left--; }
     }
-    return { ...a, unlocked: false, at: 0 };
-  });
-  return { ctx: contextOf(list), list: items };
+    if (!left) break; // 全解锁了就不用再往后翻
+  }
+
+  return { ctx: contextOf(list), list: pending.map(p => ({ ...p.a, unlocked: p.unlocked, at: p.at })) };
 }
 
-export function archiveStats(list) {
+// ach 传入已算好的成就列表时直接复用，省掉「我的」页重复算一遍
+export function archiveStats(list, ach) {
   const best = list.reduce((m, r) => Math.max(m, r.score || 0), 0);
+  const list2 = ach || achievementState(list).list;
   return {
     runs: list.length,
     best,
     endings: new Set(list.map(r => r.ending).filter(Boolean)).size,
-    achievements: achievementState(list).list.filter(a => a.unlocked).length,
+    achievements: list2.filter(a => a.unlocked).length,
   };
 }
 

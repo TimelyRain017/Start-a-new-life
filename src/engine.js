@@ -1,8 +1,10 @@
 // engine.js — 状态机 / 属性计算 / flag / 流派加权 / 隐藏结算 / 结局判定
 // 规则冻结自 PRD v1.1：§2.2 属性与叠罚上限、§2.7 预演调衡、§5.2 数据 Schema
-import { KEYS, readRaw, writeRaw, removeRaw } from './storage.js';
+import { KEYS, LEGACY_KEYS, readRaw, writeRaw, removeRaw } from './storage.js';
 
-// 存档版本：结构变更时 +1，旧存档自动作废（避免读到缺字段的旧局）
+// 存档「结构」版本：state 里字段增删时 +1，读到别的版本直接作废（避免半旧半新的状态）。
+// 注意它和 localStorage 的 key 名无关——key 只是命名空间（storage.js 的 KEYS.save，
+// 不带版本号），版本号只写在存档内容里，这样改名和改结构互不牵连。
 const SAVE_VERSION = 4;
 
 export const ATTR_INIT = { lifespan: 78, money: 0, freedom: 50, health: 80, legalRisk: 0, fraudHits: 0 };
@@ -77,12 +79,22 @@ export function rewind(state) {
 // 上限只防一票定生死，不该把主动支出抹成 0（资产为 0 时 cap=0，学费会凭空消失）。
 export function applyOption(state, decision, optionIndex) {
   const option = decision.options[optionIndex];
-  const delta = { lifespan: 0, money: 0, freedom: 0, health: 0, legalRisk: 0, fraudHits: 0 };
+  // time / energy 不是属性，只表示「走这一步要花掉几年、多少精力」。
+  // 它们必须留在 delta 里：结果弹窗要如实揭晓代价（数据里 28 个选项写了 cost.time / cost.energy，
+  // 漏掉就等于把「上大学要四年」这种关键信息藏着不说）。
+  // 不会污染属性：下面的写入循环只遍历 ATTR_KEYS，里面没有这两项。
+  const delta = {
+    lifespan: 0, money: 0, freedom: 0, health: 0, legalRisk: 0, fraudHits: 0,
+    time: 0, energy: 0,
+  };
   let spend = 0;
   let loss = 0;
 
   for (const [k, v] of Object.entries(option.cost || {})) {
     if (k === 'money') spend += v;
+    // cost 的约定是「写正数 = 要付出多少」（"time": 4 就是四年、"energy": 30 就是三十点精力），
+    // 这里统一转成负数进 delta，弹窗才能标成「花掉 / 耗去」。
+    else if (k === 'time' || k === 'energy') delta[k] -= Math.abs(v);
     else if (k in delta) delta[k] += v;
   }
   for (const [k, v] of Object.entries(option.gain || {})) {
@@ -194,8 +206,14 @@ export function saveState(state) {
 }
 export function loadState() {
   try {
-    const raw = readRaw(SAVE_KEY);
-    if (!raw) return null;
+    let raw = readRaw(SAVE_KEY);
+    if (!raw) {
+      // 老 key 里可能躺着升级前没走完的一局：搬一次到新 key，别让改 key 名把进度弄丢
+      raw = readRaw(LEGACY_KEYS.save);
+      if (!raw) return null;
+      writeRaw(SAVE_KEY, raw);
+      removeRaw(LEGACY_KEYS.save);
+    }
     const s = JSON.parse(raw);
     s.flags = new Set(s.flags || []);
     s.refs = new Set(s.refs || []);

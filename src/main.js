@@ -28,7 +28,6 @@ const perspOf = id => perspectives.find(p => p.id === id) || perspectives[0];
 // 事件节奏（PRD §2.5）：一局 24 个决策 + 4–6 个事件 ≈ 10 分钟
 const EVENT_CHANCE = 0.55;
 const EVENT_MAX_PER_RUN = 5;
-const TOTAL_DECISIONS = 24;
 
 let state = null;
 
@@ -46,11 +45,7 @@ function startStream(streamId, perspectiveId) {
 
 function continueGame() {
   const s = loadState();
-  if (!s) { // 浏览器要求先有用户手势才允许出声：第一次点屏幕时把 AudioContext 打开，之后就随打随响
-['pointerdown', 'touchstart', 'keydown'].forEach(ev =>
-  window.addEventListener(ev, () => unlockSound(), { once: true, passive: true }));
-
-boot(); return; }
+  if (!s) { boot(); return; }
   state = s;
   state.rewindCount = state.rewindCount || 0;
   ui.renderAttrBar(state);
@@ -62,11 +57,7 @@ boot(); return; }
 // 局内回主页：进度已经落盘，随时可以回来接着走
 function backHome() {
   if (state) saveState(state);
-  // 浏览器要求先有用户手势才允许出声：第一次点屏幕时把 AudioContext 打开，之后就随打随响
-['pointerdown', 'touchstart', 'keydown'].forEach(ev =>
-  window.addEventListener(ev, () => unlockSound(), { once: true, passive: true }));
-
-boot();
+  boot();
 }
 
 // flag 轻分支：requireFlags 不满足 / forbidFlags 命中的决策整段跳过（PRD §2.4）
@@ -229,8 +220,6 @@ function showEnding() {
     {
       state, ending, badgeList, score, revealed,
       perspNote: perspOf(state.perspective).endingNote,
-      incomplete: decisions.length < TOTAL_DECISIONS,
-      loaded: decisions.length, total: TOTAL_DECISIONS,
       runNo: extra.runNo, newAch: extra.newAch,
     },
     {
@@ -244,11 +233,7 @@ function showEnding() {
         }
       },
       onRestart: () => startStream(state.stream, state.perspective),
-      onHome: () => { clearSave(); // 浏览器要求先有用户手势才允许出声：第一次点屏幕时把 AudioContext 打开，之后就随打随响
-['pointerdown', 'touchstart', 'keydown'].forEach(ev =>
-  window.addEventListener(ev, () => unlockSound(), { once: true, passive: true }));
-
-boot(); },
+      onHome: () => { clearSave(); boot(); },
       onMe: () => openMe(() => showEnding()),
       onShare: () => ui.openShareCard({
         state, ending, badgeList, score, revealed,
@@ -256,7 +241,6 @@ boot(); },
       }),
     },
   );
-  window.__sharePayload = { state, ending, badgeList, score, revealed };
 }
 
 // returnTo：从主页进来返回主页，从结算页进来返回结算页

@@ -41,7 +41,7 @@ function loadImg(src) {
 }
 
 // 卡面下半部：这一生的三个岔路口（比装饰图形更有信息量，也更能引起共鸣）
-function drawMoments(ctx, topY, history) {
+function drawMoments(ctx, topY, history, bottomY) {
   const picks = [];
   const n = history.length;
   if (n >= 3) {
@@ -55,32 +55,41 @@ function drawMoments(ctx, topY, history) {
   }
   if (!picks.length) return;
 
+  // 先量空间再画：标题占 topY+62，每站「年龄 + 两行选择」高 98px、行距 148，
+  // 底线是脚注上方 24px。结局文案变长、又带了徽章时，不能压到脚注上——
+  // 装不下就少画一站（不压行距：行距一压，上一站第二行会和下一站的年龄贴在一起）。
+  const startY = topY + 62;
+  const avail = bottomY - 24 - startY;
+  const rowH = 148;
+  const rows = Math.max(0, Math.min(picks.length, 1 + Math.floor((avail - 98) / rowH)));
+  if (!rows) return; // 连一站都放不下：宁可不画
+  // 砍站时保留首尾（起点和最近那一步，信息量最大）
+  const used = rows >= picks.length ? picks : [picks[0], picks[picks.length - 1]].slice(0, rows);
+
   ctx.fillStyle = '#9aa4aa';
   ctx.font = `400 23px ${FONT}`;
   ctx.letterSpacing = '8px';
   ctx.fillText('这一生的几个岔路口', PAD, topY);
   ctx.letterSpacing = '0px';
 
-  const startY = topY + 62;
-  const rowH = 148;
   const lineX = PAD + 13;
   const textX = PAD + 52;
 
-  // 竖线：把三个岔路口串成一条路
+  // 竖线：把几个岔路口串成一条路
   ctx.strokeStyle = 'rgba(30, 37, 41, 0.12)';
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(lineX, startY - 22);
-  ctx.lineTo(lineX, startY + rowH * (picks.length - 1) + 6);
+  ctx.lineTo(lineX, startY + rowH * (used.length - 1) + 6);
   ctx.stroke();
 
-  picks.forEach((idx, k) => {
+  used.forEach((idx, k) => {
     const h = history[idx];
     const y = startY + k * rowH;
     // 节点
     ctx.beginPath();
-    ctx.arc(lineX, y + 4, k === picks.length - 1 ? 7 : 5, 0, Math.PI * 2);
-    ctx.fillStyle = k === picks.length - 1 ? '#c39a4b' : '#5b7d90';
+    ctx.arc(lineX, y + 4, k === used.length - 1 ? 7 : 5, 0, Math.PI * 2);
+    ctx.fillStyle = k === used.length - 1 ? '#c39a4b' : '#5b7d90';
     ctx.fill();
     // 年龄 + 标题
     ctx.fillStyle = '#c39a4b';
@@ -241,7 +250,7 @@ export async function buildShareCard(p) {
 
   // ── 三个岔路口（填满卡面下半部，也是最有共鸣的部分） ──
   const footY = H - 168;
-  drawMoments(ctx, y + 30, state.history);
+  drawMoments(ctx, y + 30, state.history, footY);
 
   // ── 脚注 ──
   ctx.fillStyle = '#8b9499';

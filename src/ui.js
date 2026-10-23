@@ -30,6 +30,10 @@ function hideAttrBar() {
 }
 const ATTR_LABEL = { lifespan: '寿命', money: '金钱', freedom: '自由', health: '健康', legalRisk: '法律风险', fraudHits: '中招', time: '时间', energy: '精力' };
 
+// 拼进 innerHTML 的外部字符串一律过这里（记录可能来自用户导入的备份文件）
+const ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ESC_MAP[c]);
+
 export function fmtMoneyRaw(v) {
   return (v < 0 ? '−¥' : '¥') + Math.abs(v).toLocaleString('en-US');
 }
@@ -44,16 +48,25 @@ function fmtMoneyShort(v) {
 function chipText(k, v) {
   const mark = attrIcon(k);
   if (k === 'money') return mark + '金钱 ' + (v < 0 ? '−' : '+') + '¥' + Math.abs(v).toLocaleString('en-US');
-  if (k === 'time') return mark + '时间 ' + v + ' 年';
-  if (k === 'energy') return mark + '精力 ' + v;
+  // time / energy 是「这一步要付出去的年数与精力」，不是属性值加减。
+  // 写成「花掉 4 年」而不是「时间 −4 年」：后者会被读成寿命减少，和 lifespan 混在一起。
+  if (k === 'time') return mark + '时间 ' + (v < 0 ? '花掉 ' : '省下 ') + Math.abs(v) + ' 年';
+  if (k === 'energy') return mark + '精力 ' + (v < 0 ? '耗去 ' : '补回 ') + Math.abs(v);
   return mark + ATTR_LABEL[k] + ' ' + (v > 0 ? '+' : '') + v;
 }
+
+// 代价类（时间/精力）不分红绿：多花一年不是「亏」，只如实报个数
+const COST_KEYS = new Set(['time', 'energy']);
 
 function deltaChips(delta) {
   const items = Object.entries(delta).filter(([, v]) => v !== 0);
   if (!items.length) return '<span class="chip chip-none">这一岁，什么也没变</span>';
   return items
-    .map(([k, v]) => `<span class="chip ${v > 0 ? 'chip-up' : 'chip-down'}">${chipText(k, v)}</span>`).join('');
+    .map(([k, v]) => {
+      const cls = COST_KEYS.has(k) ? 'chip-cost' : v > 0 ? 'chip-up' : 'chip-down';
+      return `<span class="chip ${cls}">${chipText(k, v)}</span>`;
+    })
+    .join('');
 }
 
 // 顶部属性条的图标由这里补齐（index.html 里只放空占位，避免静态页里手写一堆 SVG）
@@ -99,7 +112,8 @@ export function renderStart(onStream, onContinue, save, perspectives = [], defau
   let picked = list.some(p => p.id === defaultId) ? defaultId : list[0].id;
   const cur = list.find(p => p.id === picked);
   const archive = loadArchive();
-  const st = archiveStats(archive);
+  const achHome = achievementState(archive).list; // 底部记录条只用到「解锁数 / 总数」，算一次就够
+  const st = archiveStats(archive, achHome);
   const saveInfo = save ? describeSave(save) : null;
 
   hideAttrBar();
@@ -148,7 +162,7 @@ export function renderStart(onStream, onContinue, save, perspectives = [], defau
       </div>
 
       <button class="me-strip" id="btn-me-strip">
-        <span>走完 <b>${st.runs}</b> 局 · 结局 <b>${st.endings}/8</b> · 成就 <b>${st.achievements}/${achievementState(archive).list.length}</b></span>
+        <span>走完 <b>${st.runs}</b> 局 · 结局 <b>${st.endings}/8</b> · 成就 <b>${st.achievements}/${achHome.length}</b></span>
         <span class="me-strip-go">我的记录 ›</span>
       </button>
       ${storageOk() ? '' : '<p class="store-warn">当前浏览器不允许本地存储（可能是无痕模式），记录关掉页面就会消失。</p>'}
@@ -190,8 +204,8 @@ const saveMeta = d => `${d.stream} · ${d.finished ? '' : '走到 '}${d.age} 岁
 // ── 我的：结局图鉴 + 成就 + 记录 + 进行中的一局 ────────────
 export function renderMe(mainEndings, save, handlers = {}, flash = '') {
   const archive = loadArchive();
-  const st = archiveStats(archive);
-  const ach = achievementState(archive).list;
+  const ach = achievementState(archive).list; // 只算一次：下面的统计直接复用
+  const st = archiveStats(archive, ach);
   const counts = {};
   archive.forEach(r => { counts[r.ending] = (counts[r.ending] || 0) + 1; });
   const total = mainEndings.length || 8;
@@ -262,12 +276,12 @@ export function renderMe(mainEndings, save, handlers = {}, flash = '') {
         ${archive.slice(0, 12).map(r => `
           <li>
             <div class="rec-main">
-              <b>${r.endingName || r.ending}</b>
-              <span>${r.streamName || ''} · ${r.perspectiveName || ''}视角</span>
+              <b>${esc(r.endingName || r.ending)}</b>
+              <span>${esc(r.streamName || '')} · ${esc(r.perspectiveName || '')}视角</span>
             </div>
             <div class="rec-side">
-              <b>${r.score}</b>
-              <time>${fmtWhen(r.at)}</time>
+              <b>${esc(r.score)}</b>
+              <time>${esc(fmtWhen(r.at))}</time>
             </div>
           </li>`).join('')}
       </ul>` : '<p class="empty">还没有走完任何一局。走完第一局，这里会开始记下你的人生。</p>'}
@@ -626,7 +640,6 @@ export function renderEnding(r, handlers) {
   hideAttrBar(); // 结算页下方已列属性，顶部条不重复占位
   setScreen(`
     <section class="card ending">
-      ${r.incomplete ? `<p class="banner">开发中（D3 进度）：已录入 ${r.loaded}/${r.total} 个抉择（17–22 岁），完整一局为 24 个抉择、7 个人生阶段。本页数值仅用于验证流程，不代表最终平衡。</p>` : ''}
       ${brandCorner()}
       <p class="kicker">${score.stream.name} · 此生结算</p>
       <div class="score-row">
@@ -683,7 +696,11 @@ export async function openShareCard(payload) {
   try {
     const canvas = await buildShareCard(payload);
     dataUrl = canvas.toDataURL('image/png');
+    if (!dataUrl || dataUrl.length < 2048) throw new Error('画布导出为空');
   } catch (e) {
+    // 以前这里静默 return，点「生成人生卡片」会毫无反应、也没法排查；
+    // 现在把失败摆到台面上（原因 + 替代办法），至少知道是哪里不对。
+    showShareError(e);
     return;
   }
   const old = document.querySelector('#share-sheet');
@@ -707,6 +724,30 @@ export async function openShareCard(payload) {
     a.download = `及时雨-人生重开-${payload.ending.name}.png`;
     a.click();
   });
+  el.querySelector('#btn-share-close').addEventListener('click', () => el.remove());
+  el.addEventListener('click', e => { if (e.target === el) el.remove(); });
+}
+
+// 分享卡生成失败时的提示层：写清原因，并给一条走得通的路（截图）
+function showShareError(err) {
+  const old = document.querySelector('#share-sheet');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.className = 'share-sheet solid'; // 没有图片衬底，遮罩要更实一点，白字才读得清
+  el.id = 'share-sheet';
+  el.innerHTML = `
+    <div class="share-panel">
+      <p class="share-tip">卡片没生成出来</p>
+      <p class="share-err" id="share-err-msg"></p>
+      <p class="share-err-sub">可以先截图这一页发出去；换个浏览器或者稍后再试，通常就好了。</p>
+      <div class="share-actions">
+        <button class="btn btn-ghost btn-block" id="btn-share-close">回到结算</button>
+      </div>
+    </div>`;
+  // 错误信息可能带外部字符串，用 textContent 写，不拼进 HTML
+  el.querySelector('#share-err-msg').textContent =
+    (err && err.message ? err.message : '未知原因（画布被浏览器拒绝）');
+  document.body.appendChild(el);
   el.querySelector('#btn-share-close').addEventListener('click', () => el.remove());
   el.addEventListener('click', e => { if (e.target === el) el.remove(); });
 }

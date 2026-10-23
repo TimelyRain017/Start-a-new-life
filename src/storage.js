@@ -3,10 +3,16 @@
 // 不联网、不上传、没有账号。换来的是——换浏览器 / 换网址 / 清浏览数据就看不到旧记录。
 // 所以这里做三件事：探测可用性、写入失败降级成内存、给「我的」页报状态。
 export const KEYS = {
-  save: 'life-restart-save-v1',
+  // 存档不带版本号：结构版本写在存档内容的 version 字段里（engine.js 的 SAVE_VERSION），
+  // 这样「改结构」和「改 key 名」是两件事，不会出现 key 叫 v1、内容却是第 4 版这种错位。
+  save: 'life-restart-save',
+  // 档案（走完的每一局）保留 v1：它是用户的资产，换 key 等于让老记录凭空消失
   archive: 'life-restart-archive-v1',
   sound: 'life-restart-sound-v1',
 };
+
+// v2.1 之前存档 key 叫 life-restart-save-v1，读到就搬过来（一次性迁移，别丢进行中的一局）
+export const LEGACY_KEYS = { save: 'life-restart-save-v1' };
 
 // 写不进 localStorage 时的兜底：至少这一局关掉页面前都在
 const memory = new Map();
